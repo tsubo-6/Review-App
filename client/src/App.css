@@ -1,0 +1,172 @@
+.App {
+  width: 100%;
+  height: 100vh;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.Sidebar{
+  height: 100%;
+  /* height:750px; */
+  width: 250px;
+  /* サイドバーをフッターまで */
+  position: fixed;
+  background-color: #A9D159;
+
+  z-index: 200;
+}
+
+
+.SidebarList{
+
+  height:auto;
+  padding:0;
+  width:100%;
+}
+
+.SidebarList .row {
+  width: 100%;
+  height:60px;
+  display:flex;
+  color: white;
+  justify-content:center;
+  align-items:center;
+}
+
+.SidebarList .row:hover {
+  cursor: pointer;
+  background-color: #ADB367;
+}
+
+.row #icon{
+  flex: 30%;
+  display: grid;
+  place-items:center;
+}
+
+.row #title {
+  flex: 70%;
+}
+
+.SidebarIcon{
+  padding-top:20px;
+  padding-bottom: 15px;
+  text-align:center;
+}
+
+.SidebarIcon img{
+  width: 100px;
+}
+
+.SidebarIcon p{
+  color:white;
+  font-size: 13px;
+}
+
+.Navbar{
+  color:#ADB16B;
+  z-index: 100;
+}
+
+/* ログインフォーム */
+body.log{
+  background: rgb(188, 255, 124);
+  background: linear-gradient(90deg, rgba(188, 255, 124, 1) 0%, rgba(0, 255, 159, 1) 100%);
+  /* スクロール禁止 */
+  overflow-y: hidden;
+}
+
+.formContainer{
+  height: 100vh;
+  width:100%;
+  display:flex;
+  /* 縦に対して中央に寄せる */
+  align-items:center;
+  /* 横に対して中央に */
+  justify-content: center;
+}
+
+h1.formContainer{
+  text-align: center;
+}
+
+/* formタグ内を白く */
+.formContainer form{
+  background-color: #f8ecec;
+  /* 今のブラウザの70 */
+  width: 70%;
+  /* 450pxは超えないように */
+  max-width:450px;
+  /* 上下左右に30pxの余白を作成 */
+  padding:30px;
+  border-radius: 10px;
+  /* 枠線の色 */
+  border:1px solid #dfdfdf;
+  box-shadow: 8px 0px 48px -13px #777777;
+  border-radius: 10px;
+}
+
+.uiForm{
+  /* 横並びにして */
+  display: flex;
+  /* 縦に並べ替える(align-items適用できるようにするために)*/
+  flex-direction:column;
+  align-items:center;
+  justify-content: space-evenly;
+  height:400px
+}
+
+/* User名とフォームを縦並びにする */
+.formField{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+}
+
+.formField input{
+  border: 1px solid grey;
+  padding: 20px;
+  border-radius: 4px;
+
+}
+
+.formField label {
+  font-size: 15px;
+  /* 文字の太さ */
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+button.formContainer{
+  background-color: #1b66a7;
+  width: 100%;
+  margin-top: 10px;
+  border:none;
+  border-radius: 5px;
+  padding:10px 30px;
+  color:white;
+  font-size:15px;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+
+button:hover{
+  background-color: #175892;
+}
+
+
+.selectForm1{
+  z-index: 150;
+}
+
+.selectForm2 {
+  z-index: 100;
+}
+
+.selectForm3 {
+  z-index: 50;
+}

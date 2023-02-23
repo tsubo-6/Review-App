@@ -1,2 +1,0 @@
-insert into review values
-(?,?,?,?,?);

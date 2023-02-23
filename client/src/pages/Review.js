@@ -3,7 +3,8 @@ import Navbar from '../components/Navbar'
 import { Button, Container, Stack, TextField,InputLabel, Paper} from '@mui/material'
 import { Link } from "react-router-dom";
 import Select from 'react-select';
-// import axios from "axios";
+// 特定のエンドポイントへのリクエストを送信できるようにする、HTTPクライアント
+import axios from "axios";
 
 
 const Countries = [
@@ -36,7 +37,19 @@ const Curry = [
 ];
 
 //レビュー登録
-// const onSubmit =({data.shop}) ;
+const onSubmit = async({shop,visit,score_id,spicy_id,curry_id,curry_review},e) =>{
+  axios.post("/api/insert/review",{
+    shop:shop,
+    visit:visit,
+    score_id:score_id,
+    spicy_id:spicy_id,
+    curry_id:curry_id,
+    curry_review:curry_review
+  });
+  const res = await axios.get("/review", {
+
+  });
+};
 
 function Review() {
   return (
@@ -71,7 +84,7 @@ function Review() {
               <Button color="primary" variant="contained" size="large">
                 作成
               </Button>
-              <Link to="/review/complete">投稿</Link>
+              <Link to="/review/complete" onClick={onSubmit}>投稿</Link>
             </Stack>
         </Paper>
       </Container>

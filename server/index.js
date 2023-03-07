@@ -1,46 +1,35 @@
-const PORT = process.env.PORT
 //requireでexpressモジュールを読み込む
 const express=require("express");
 const cors = require('cors');
 const path = require('path')
 const bodyParser = require('body-parser')
-const mysql = require('mysql2');
+// const mysql = require('mysql2');
+const postRoute = require("./routes/posts.js");
 //expressモジュールを実体化して、定数appに代入
 const app=express()
+const mongoose = require("mongoose");
+// require("dotenv").config();
 
-//ミドルウェアとして設定
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors())
+const PORT = 5000;
 
-//3001ポートでlisten
-app.listen(3000, ()=>{
-  console.log("Application listening at 3001")
+//mongoDBとデータベース接続
+mongoose.connect("mongodb+srv://tsubo:Masaki61@cluster0.lmi4zi6.mongodb.net/review?retryWrites=true&w=majority")
+.then(()=>{
+  console.log("DBと接続中...");
+}).catch((err)=>{
+  console.log(err);
 });
 
-const handleConnection = () =>{
-  //データベースとのコネクション設定
-  const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Masaki61',
-    database: 'review_info'
-  });
+//ミドルウェアとして設定
+app.use(cors())
+app.use(express.json());
+//第一引数をルートディレクトリとして
+//リクエストされた時に第二引数呼び出し
+///api/postsをルートディレクトリとして設定
+app.use("/api/posts", postRoute);
 
-  //DB接続
-  con.connect((err) =>{
-    if(err) {return connect.end()}
-    console.log('Mysql Connected...');
-  });
-}
 
-handleConnection();
-
-//レビュー登録
-app.post("/api/insert/review", (req, res) => {
-  console.log('ここ');
-
-  const sql = "INSERT INTO review (${req.body.shop},${req.body.visit},${req.body.score_id},${req.body.spicy_id},${req.body.curry_id},${req.body.curry_review}) VALUES (?,?,?,?,?)"
-  con,query(sql,review,(err,result) => {
-    res.send(result);
-  });
+//3001ポートでlisten
+app.listen(PORT, ()=>{
+  console.log("サーバーが起動しました")
 });

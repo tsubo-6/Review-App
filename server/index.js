@@ -5,6 +5,9 @@ const path = require('path')
 const bodyParser = require('body-parser')
 // const mysql = require('mysql2');
 const postRoute = require("./routes/posts.js");
+const authRoute = require("./routes/auth.js");
+const userRoute = require("./routes/users.js");
+
 //expressモジュールを実体化して、定数appに代入
 const app=express()
 const mongoose = require("mongoose");
@@ -26,8 +29,9 @@ app.use(express.json());
 //第一引数をルートディレクトリとして
 //リクエストされた時に第二引数呼び出し
 ///api/postsをルートディレクトリとして設定
+app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
-
+app.use("/api/auth", authRoute);
 
 //3001ポートでlisten
 app.listen(PORT, ()=>{

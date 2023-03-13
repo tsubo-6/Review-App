@@ -3,9 +3,15 @@ import Navbar from "../components/Navbar.jsx"
 import Sidebar from '../components/Sidebar.jsx'
 import { useState } from "react";
 import Card from "../components/Card"
+import RecipeReviewCard from "../components/Card"
+import { useParams } from 'react-router-dom';
 
 // 親コンポーネント
 function Main(props){
+  ///URLのクエリを取得する
+  //userの切り替え
+  const username=useParams().username;
+
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
   return (
@@ -15,10 +21,11 @@ function Main(props){
         setSidebarVisible={setSidebarVisible}
         sidebarVisible={sidebarVisible}
       />
-      <Sidebar sidebarVisible={sidebarVisible}/>
 
-      {/* {props.visible && <Sidebar/>} */}
-      <Card/>
+      <div className="main">
+        <Sidebar sidebarVisible={sidebarVisible}/>
+        <RecipeReviewCard/>
+      </div>
     </div>
   )
 }

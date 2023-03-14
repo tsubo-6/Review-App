@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import React,{useState,useEffect,useContext} from 'react';
 import { AuthContext } from '../states/AuthContext';
 import axios from "axios"
+import { Grid } from "@mui/material";
 
 // 親コンポーネント
 function Main(){

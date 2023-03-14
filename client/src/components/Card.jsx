@@ -14,9 +14,12 @@ import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import food from "./../images/curry1.jpg"
 import axios from "axios"
-import { Divider } from '@mui/material';
+import { Divider, Grid } from '@mui/material';
 import { AuthContext } from '../states/AuthContext';
 import {useRef,useContext} from "react";
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 export default function RecipeReviewCard({post}) {
   // //投稿された情報を格納 @
@@ -43,20 +46,29 @@ export default function RecipeReviewCard({post}) {
 
   // },[user.username, user._id])
 
+  const [openMenu, setOpenMenu] = useState(false);
+  const handleMenuOpen = () => {
+    setOpenMenu(!openMenu);
+  };
 
   return (
-    // {posts.map((post)=>(
-    <Card sx={{ maxWidth: 345 }} className="card">
+    <Grid container alignItems='center' justifyContent='center' direction="column" sx={{m:2}}>
+    <Card sx={{ maxWidth: 480 }} className="card">
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            t
+            {}
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <CardActions disableSpacing>
+            <IconButton aria-label="add to favorites">
+              <EditIcon />
+            </IconButton>
+            <IconButton aria-label="share">
+              <DeleteIcon />
+            </IconButton>
+          </CardActions>
         }
         title={post.shopName}
         subheader={post.visit}
@@ -96,5 +108,8 @@ export default function RecipeReviewCard({post}) {
         </IconButton>
       </CardActions>
     </Card>
+    </Grid>
+    // </Grid>
+
   );
 }

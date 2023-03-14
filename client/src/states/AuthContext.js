@@ -22,9 +22,9 @@ export const AuthContextProvider=({children}) =>{
   //dispatch:アクションの通知
   const [state,dispatch]= useReducer(AuthReducer, initialState);
 
-  useEffect(()=>{
-    localStorage.setItem("user", JSON.stringify(state.user))
-  },[state.user])
+  // useEffect(()=>{
+  //   localStorage.setItem("user", JSON.stringify(state.user))
+  // },[state.user])
 
   return(
     //createContext使用時(l15)に利用可能

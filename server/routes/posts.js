@@ -28,13 +28,34 @@ router.post("/",async (req,res) => {
 //:id ->　任意の数値文字列を指定できる
 //パスパラメータを取得 -> req.params.:の後に続く変数
 // router.get("/:username" , async (req,res) => {
-router.get("/:user" , async (req,res) => {
+// router.get("/:id" , async (req,res) => {
+//   try{
+//     // :idに設定したparams
+//     // 変数postにreq.paramsで取得したusernameと合致するデータセットを格納
+//     // const user=await Post.findOne({userName:req.params.user});
+//     const user=await Post.findById(req.params.id);
+
+//     //_id -> currentUserで取得したuserIdのpostの全ての情報
+//     // const posts = await Post.find({userId: user._id});
+//     return res.status(200).json(user);
+//   }catch(err){
+//     //スキーマの条件を満たしていないときなど
+//     return res.status(403).json(err);
+//   }
+// });
+
+//usernameから投稿取得
+
+// router.get("/:username+" , async (req,res) => {
+  router.get("/" , async (req,res) => {
   try{
     // :idに設定したparams
     // 変数postにreq.paramsで取得したusernameと合致するデータセットを格納
-    const user=await Post.findOne({userName:req.params.username});
-    //_id -> currentUserで取得したuserIdのpostの全ての情報
-    const posts = await Post.find({userId: user._id});
+    // const user=await Post.findOne({userName:req.params.user});
+    const user=await Post.findOne(req.params.username);
+
+    const posts = await Post.find({username: user.username});
+    console.log("posts:"+posts);
     return res.status(200).json(posts);
   }catch(err){
     //スキーマの条件を満たしていないときなど

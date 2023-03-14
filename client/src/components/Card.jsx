@@ -18,31 +18,34 @@ import { Divider } from '@mui/material';
 import { AuthContext } from '../states/AuthContext';
 import {useRef,useContext} from "react";
 
-// Mainから
-export default function RecipeReviewCard() {
-  //投稿された情報を格納 @
-  const [posts, setPosts]=useState([]);
-  const {user} = useContext(AuthContext)
+export default function RecipeReviewCard({post}) {
+  // //投稿された情報を格納 @
+  // const [posts, setPosts]=useState({});
+  // //ログイン時のユーザ情報
+  // const {user} = useContext(AuthContext)
 
-  //useEffectの無名関数にasyncがつけられない
-  useEffect(()=>{
-    //promise状態（データ取得中）を回避
-    const fetchPosts=async ()=>{
-      const response = user ?
-      //axiosで取得したいデータが存在するファイルへのパスを記述
-      //localhost:5000/apiは省略
+  // //useEffectの無名関数にasyncがつけられない
+  // useEffect(()=>{
+  //   //promise状態（データ取得中）を回避
+  //   const fetchPosts=async ()=>{
+  //     const response = await axios.get(`http://localhost:5000/api/posts/`, {
+  //     params: { username: user.username },
+  //   });
+      //undifined
+      //console.log(posts.shopName);
 
-      // なんでエラー４０３出るのか？
-      // await axios.get(`http://localhost:5000/api/posts/user?username=${username}`)
-      await axios.get(`http://localhost:5000/api/posts/${user.username}`)
-      : await axios.get(`http://localhost:5000/api/posts/${user._id}`);
-      //引数にresponse.dataを設定することでuseStateのpostsに格納することができる
-      setPosts(response.data)
-    };
-    fetchPosts();
-  },[user.username, user._id])
+  //   // console.log("username："+user.username);
+  //     // const response = await axios.get(`http://localhost:5000/api/posts/${user.username}`)
+  //     //引数にresponse.dataを設定することでuseStateのpostsに格納することができる
+  //     setPosts(response.data)
+  //   };
+  //   fetchPosts();
+
+  // },[user.username, user._id])
+
 
   return (
+    // {posts.map((post)=>(
     <Card sx={{ maxWidth: 345 }} className="card">
       <CardHeader
         avatar={
@@ -55,8 +58,8 @@ export default function RecipeReviewCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title={posts.shopName}
-        subheader={posts.visit}
+        title={post.shopName}
+        subheader={post.visit}
       />
       <CardMedia
         component="img"
@@ -67,20 +70,21 @@ export default function RecipeReviewCard() {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          評価: {posts.score}
+          評価: {post.score}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          辛さ: {posts.spicy}
+          辛さ: {post.spicy}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          カレーの種類: {posts.curry}
+          カレーの種類: {post.curry}
         </Typography>
 
         <Divider />
         <Typography variant="body2" color="text.secondary">
-          レビュー: {posts.desc}
+          レビュー: {post.desc}
         </Typography>
       </CardContent>
+      {/* ))} */}
 
       {/* Card下部のアイコン */}
       <CardActions disableSpacing>

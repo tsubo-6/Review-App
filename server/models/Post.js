@@ -7,10 +7,10 @@ const PostSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    userName:{
-      type: String,
-      require: true,
-    },
+    // userName:{
+    //   type: String,
+    //   require: true,
+    // },
     shopName: {
       type: String,
       require: true,

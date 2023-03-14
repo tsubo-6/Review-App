@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Review() {
-  const userName = useRef("");
+  // const userName = useRef("");
   const shopName = useRef("");
   const visit = useRef("");
   const score = useRef("");
@@ -20,7 +20,7 @@ const handleSubmit = async(e) =>{
   e.preventDefault();
   try{
     const newPost = {
-    userName: e.target['userName'].value,
+    // userName: e.target['userName'].value,
     shopName: e.target['shop'].value,
     visit: e.target['visit'].value,
     score: e.target['score'].value ,
@@ -52,8 +52,8 @@ const handleSubmit = async(e) =>{
 
           <form onSubmit={(e)=> handleSubmit(e)}>
             <Stack spacing={3}>
-              <InputLabel>ユーザ名</InputLabel>
-              <TextField required label="ユーザ名" name='userName' inputRef={userName}/>
+              {/* <InputLabel>ユーザ名</InputLabel>
+              <TextField required label="ユーザ名" name='userName' inputRef={userName}/> */}
 
               <InputLabel>店舗名</InputLabel>
               <TextField required label="店舗名" name='shop' inputRef={shopName}/>

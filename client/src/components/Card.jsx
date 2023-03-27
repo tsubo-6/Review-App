@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from 'react';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -12,14 +11,15 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import food from "./../images/curry1.jpg"
+// import food from "./../images/";
 import axios from "axios"
 import { Divider, Grid } from '@mui/material';
 import { AuthContext } from '../states/AuthContext';
-import {useRef,useContext} from "react";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@mui/material/Button';
 
+import { Link } from 'react-router-dom';
 
 export default function RecipeReviewCard({post}) {
   // //投稿された情報を格納 @
@@ -46,14 +46,24 @@ export default function RecipeReviewCard({post}) {
 
   // },[user.username, user._id])
 
+
   const [openMenu, setOpenMenu] = useState(false);
   const handleMenuOpen = () => {
     setOpenMenu(!openMenu);
   };
 
+  const deleteAction = (id) =>{
+    console.log("id:"+id)
+    axios.delete("http://localhost:5000/api/posts/"+id).then((res)=>{
+    });
+
+    alert("投稿が削除されました")
+    window.location.reload();
+  }
+
   return (
     <Grid container alignItems='center' justifyContent='center' direction="column" sx={{m:2}}>
-    <Card sx={{ maxWidth: 480 }} className="card">
+    <Card sx={{ minWidth:450 ,maxWidth: 450 }} className="card">
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -63,23 +73,42 @@ export default function RecipeReviewCard({post}) {
         action={
           <CardActions disableSpacing>
             <IconButton aria-label="add to favorites">
-              <EditIcon />
+              <Link
+              to="/edit"
+              state={{
+                id:post._id,
+                shop:post.shopName,
+                vis:post.visit,
+                sco:post.score,
+                spi:post.spicy,
+                cur:post.curry,
+                des:post.desc
+                }}>
+                <EditIcon />
+              </Link>
             </IconButton>
             <IconButton aria-label="share">
-              <DeleteIcon />
+              <DeleteIcon onClick={()=>deleteAction(post._id)} />
             </IconButton>
           </CardActions>
         }
         title={post.shopName}
-        subheader={post.visit}
+        subheader={(post.visit).substr(0,10)}
+        // subheader={post._id}
       />
-      <CardMedia
+
+      {/* <img src={"/uploads/" + post._id+ ".png"}/> */}
+      <img
+      src={"http://localhost:5000/uploads/"+post._id+".png"} height="280" width="450"/>
+
+      {/* <CardMedia
         component="img"
         height="194"
         // 画像をインポートする必要あり
-        image={food}
-        alt="Paella dish"
-      />
+        image={"/uploads/" + post._id+ ".png"}
+        alt="画像データがありません"
+      /> */}
+
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           評価: {post.score}
@@ -96,7 +125,6 @@ export default function RecipeReviewCard({post}) {
           レビュー: {post.desc}
         </Typography>
       </CardContent>
-      {/* ))} */}
 
       {/* Card下部のアイコン */}
       <CardActions disableSpacing>
@@ -107,6 +135,8 @@ export default function RecipeReviewCard({post}) {
           <ShareIcon />
         </IconButton>
       </CardActions>
+
+
     </Card>
     </Grid>
     // </Grid>

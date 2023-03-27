@@ -37,7 +37,7 @@ export const AuthContextProvider=({children}) =>{
     }}
     >
       {/* children->AuthContextで囲まれたchildrenはvalueの値を全て使用できる */}
-      {/* <App/> */}
+      {/* <App/> と同じ意味*/}
       {children}
     </AuthContext.Provider>
   );

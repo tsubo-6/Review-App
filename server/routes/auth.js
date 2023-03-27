@@ -9,10 +9,11 @@ router.post("/register", async (req, res) => {
     //作成したスキーマをnewする
     const newUser = await new User({
       //reqに含まれるpostmanのbodyから取ってくる
-      username: req.body.username,
+      userName: req.body.username,
       email: req.body.email,
       password: req.body.password,
     });
+
     //ドキュメントを保存
     const user = await newUser.save();
     return res.status(200).json(user);

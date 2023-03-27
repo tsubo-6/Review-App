@@ -1,26 +1,32 @@
-import React,{useRef} from 'react'
+import React,{useRef,useState} from 'react'
 import Navbar from '../components/Navbar'
-import { Button, Container, Stack, TextField,InputLabel, Paper,Select, MenuItem} from '@mui/material'
-import { Link } from "react-router-dom";
+import { Button, Container, Stack, TextField,InputLabel, Paper,Select, MenuItem, Link} from '@mui/material'
+import FormData from "form-data";
 // 特定のエンドポイントへのリクエストを送信できるようにする、HTTPクライアント
 import axios from "axios";
 
 function Review() {
-  // const userName = useRef("");
+  const userName = useRef("");
   const shopName = useRef("");
   const visit = useRef("");
-  const score = useRef("");
+  // const score = useRef("");
+  const [score, setScore] = useState("");
   const spicy = useRef("");
   const curry = useRef("");
   const desc = useRef("");
+  const [image, setImg] = useState("");
 
+  //画像を添付したら発火
+  const handleChange = async(e)=>{
+    setImg(e.target.files)
+  }
 
 //レビュー登録
 const handleSubmit = async(e) =>{
   e.preventDefault();
   try{
     const newPost = {
-    // userName: e.target['userName'].value,
+    userName: e.target['userName'].value,
     shopName: e.target['shop'].value,
     visit: e.target['visit'].value,
     score: e.target['score'].value ,
@@ -31,10 +37,23 @@ const handleSubmit = async(e) =>{
     //package.jsonにproxy設定(http://localhost:5000省略)
     //registerAPIを叩く -> routesないのファイルで指定したroute.postの第一引数のエンドポイントを指定することでアクセス
     //第二引数:登録するデータ
-    console.log(newPost)
-    await axios.post("http://localhost:5000/api/posts" , newPost);
+    // console.log(newPost)
+    const response = await axios.post("http://localhost:5000/api/posts" , newPost);
+    const postData = new FormData();
+    console.log("img:"+image[0])
+    //postDataにキーとバリューを設定
+    postData.append("post_id", response.data._id)
+    postData.append("image_file", image[0])
+    console.log("postData:"+JSON.stringify(postData))
+    //imgにファイル名を保存
+    newPost.img=response.post_id;
+    console.log(newPost.img)
+    const headers = { "content-type": "multipart/form-data;charset=utf-8" };
+    axios.post("http://localhost:5000/api/upload",
+      postData,
+      headers
+    );
     window.location.reload();
-    console.log("投稿されました");
   }catch(err){
     console.log(err);
   }
@@ -52,17 +71,16 @@ const handleSubmit = async(e) =>{
 
           <form onSubmit={(e)=> handleSubmit(e)}>
             <Stack spacing={3}>
-              {/* <InputLabel>ユーザ名</InputLabel>
-              <TextField required label="ユーザ名" name='userName' inputRef={userName}/> */}
-
+              <InputLabel>ユーザ名</InputLabel>
+              <TextField required label="ユーザ名" name='userName' inputRef={userName}/>
               <InputLabel>店舗名</InputLabel>
               <TextField required label="店舗名" name='shop' inputRef={shopName}/>
               <InputLabel>訪問日</InputLabel>
               <TextField required label="訪問日 yyyy/mm/dd" name='visit' inputRef={visit}/>
               <InputLabel>評価</InputLabel>
-              {/* <TextField required label="評価" /> */}
-
-              <Select inputRef={score} label="評価" name="score" notched>
+              {/* scoreの値が格納されたらセッターで値保存 */}
+              <Select value={score} label="評価" onChange = {(e) => setScore(e.target.value)} name="score" notched>
+              {/* <Select inputRef={score} label="評価" name="score" notched></Select> */}
                 <MenuItem value={0.5}>0.5</MenuItem>
                 <MenuItem value={1.0}>1.0</MenuItem>
                 <MenuItem value={1.5}>1.5</MenuItem>
@@ -76,25 +94,22 @@ const handleSubmit = async(e) =>{
               </Select>
               <InputLabel>辛さ</InputLabel>
               <TextField required label="辛さ" name='spicy' inputRef={spicy}/>
-
-              {/* <Select inputRef={spicy} label="辛さ" name="spicy" notched>
-                <MenuItem name={"甘口"}>甘口</MenuItem>
-                <MenuItem name={"中辛"}>中辛</MenuItem>
-                <MenuItem value={2}>辛口</MenuItem>
-                <MenuItem value={3}>激辛</MenuItem>
-              </Select> */}
-
               <InputLabel>どんなカレー</InputLabel>
               <TextField required label="カレー" name='curry' inputRef={curry}/>
-
-              {/* <Select inputRef={curry} label="辛さ" name="curry" notched>
-                <MenuItem value={0}>スリランカカレー</MenuItem>
-                <MenuItem value={1}>インドカレー</MenuItem>
-                <MenuItem value={2}>ミャンマーカレー</MenuItem>
-                <MenuItem value={3}>カンボジアカレー</MenuItem>
-                <MenuItem value={4}>タイカレー</MenuItem>
-                <MenuItem value={5}>お店のこだわりカレー</MenuItem>
-              </Select> */}
+              <InputLabel>カレーの画像</InputLabel>
+              {/* 3/17 */}
+              {/*  style={{display:"none"}} -> ファイルを選択してくださいを隠すことが可能 */}
+              {/* <form encType="multipart/form-data"> */}
+                <input
+                  type="file"
+                  name='image'
+                  id="file"
+                  accept=".png, .jpeg, .jpg"
+                  required
+                  onChange={(e)=>handleChange(e)}
+                  // ref={img}
+                />
+              {/* </form> */}
               <InputLabel name='curry_review'>本文</InputLabel>
               <TextField
               required
@@ -105,11 +120,9 @@ const handleSubmit = async(e) =>{
               label="本文"
               size="medium"
               inputRef={desc}/>
-              {/* <Link to="/review/complete"> */}
               <Button color="primary" variant="contained" size="large" type="submit">
                 投稿
               </Button>
-              {/* </Link> */}
             </Stack>
           </form>
         </Paper>

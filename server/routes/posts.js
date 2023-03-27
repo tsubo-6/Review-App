@@ -1,10 +1,11 @@
 const router = require("express").Router();
+//ファイルの拡張子を取得
+const path = require('path');
 //ファイル読み込み
 const Post = require("../models/Post");
 
-//http://localhost:5000/api/posts/でpostリクエストが飛んできた時に実行される
-//postmanに記述しているURL ???
-router.post("/",async (req,res) => {
+// http://localhost:5000/api/posts/でpostリクエストが飛んできた時に実行される
+router.post("/", async (req,res) => {
 
   const newPost = new Post({
     userName:req.body.userName,
@@ -13,8 +14,10 @@ router.post("/",async (req,res) => {
     score:req.body.score,
     spicy:req.body.spicy,
     curry:req.body.curry,
+    img:req.body.img,
     desc:req.body.desc
   });
+
   try{
     const savePost= await newPost.save();
     return res.status(200).json(savePost);
@@ -24,43 +27,49 @@ router.post("/",async (req,res) => {
   }
 })
 
-//投稿を取得する
-//:id ->　任意の数値文字列を指定できる
-//パスパラメータを取得 -> req.params.:の後に続く変数
-// router.get("/:username" , async (req,res) => {
-// router.get("/:id" , async (req,res) => {
-//   try{
-//     // :idに設定したparams
-//     // 変数postにreq.paramsで取得したusernameと合致するデータセットを格納
-//     // const user=await Post.findOne({userName:req.params.user});
-//     const user=await Post.findById(req.params.id);
-
-//     //_id -> currentUserで取得したuserIdのpostの全ての情報
-//     // const posts = await Post.find({userId: user._id});
-//     return res.status(200).json(user);
-//   }catch(err){
-//     //スキーマの条件を満たしていないときなど
-//     return res.status(403).json(err);
-//   }
-// });
-
-//usernameから投稿取得
-
-// router.get("/:username+" , async (req,res) => {
-  router.get("/" , async (req,res) => {
+  //usernameから投稿取得
+  // router.get("/" , async (req,res) => {
+  router.get("/:username" , async (req,res) => {
   try{
     // :idに設定したparams
     // 変数postにreq.paramsで取得したusernameと合致するデータセットを格納
-    // const user=await Post.findOne({userName:req.params.user});
-    const user=await Post.findOne(req.params.username);
+    const user=await Post.findOne({userName:req.params.username});
+    const posts = await Post.find({userName: user.userName});
 
-    const posts = await Post.find({username: user.username});
-    console.log("posts:"+posts);
+    // console.log("posts:"+posts);
     return res.status(200).json(posts);
   }catch(err){
     //スキーマの条件を満たしていないときなど
     return res.status(403).json(err);
   }
 });
+
+//投稿を修正するAPI
+router.put("/:id", async(req,res) =>{
+  try{
+    const post = await Post.findById(req.params.id);
+    // if(post.userName === req.body.username){
+      await post.updateOne({
+        $set: req.body,
+      });
+
+      return res.status(200).json("編集完了")
+    // }else{
+    //   return res.status(403).json("あなたは他の人の投稿を編集できません")
+    // }
+  }catch (err){
+    return res.status(403).json(err);
+  }
+})
+
+//投稿を削除するAPI
+router.delete("/:id" ,async(req,res)=>{
+  try{
+    const post = await Post.findById(req.params.id);
+    await post.deleteOne();
+  }catch(err){
+    return res.status(403).json(err);
+  }
+})
 
 module.exports=router;

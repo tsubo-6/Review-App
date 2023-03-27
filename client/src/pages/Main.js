@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import React,{useState,useEffect,useContext} from 'react';
 import { AuthContext } from '../states/AuthContext';
 import axios from "axios"
-import { Grid } from "@mui/material";
 
 // 親コンポーネント
 function Main(){
@@ -20,22 +19,19 @@ function Main(){
   useEffect(()=>{
     //promise状態（データ取得中）を回避
     const fetchPosts=async ()=>{
-      const response = await axios.get(`http://localhost:5000/api/posts/`, {
-      params: { username: user.username },
-    });
-      console.log(response.data);
+      // 3/16
+      // const response = await axios.get("http://localhost:5000/api/posts/", {
+      const response = await axios.get("http://localhost:5000/api/posts/"+user.username, {
 
-    // console.log("username："+user.username);
-      // const response = await axios.get(`http://localhost:5000/api/posts/${user.username}`)
+      //送りたいパラメータの指定
+      // params: {username: user.useName}
+    });
       //引数にresponse.dataを設定することでuseStateのpostsに格納することができる
       setPosts(response.data)
     };
     fetchPosts();
 
   },[user.username, user._id])
-  ///URLのクエリを取得する
-  //userの切り替え
-  // const username=useParams().username;
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
@@ -46,7 +42,6 @@ function Main(){
         setSidebarVisible={setSidebarVisible}
         sidebarVisible={sidebarVisible}
       />
-
       <div className="main">
         <Sidebar sidebarVisible={sidebarVisible}/>
         {posts.map((post)=>(

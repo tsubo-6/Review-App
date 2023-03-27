@@ -2,63 +2,65 @@ import {useState,useRef,useContext} from "react";
 import { Link } from "react-router-dom";
 import {AuthContext} from "../states/AuthContext"
 import {loginCall} from "../actionCalls"
-import { useForm } from 'react-hook-form';
+import axios from "axios";
 
-function Login (){
-  const userName=useRef();
-  const email=useRef();
-  const password=useRef();
-  //AuthContext内のvalue
+
+function Register (){
+  const username=useRef("");
+  const email=useRef("");
+  const password=useRef("");
+
   const {user,isFetching,error,dispatch}= useContext(AuthContext);
 
-  const initialValues ={username:"",email:"",password:""};
+  const initialValues ={username:"",password:""};
   // 変数formValuesには初期値としてオブジェクトinitialValuesが格納されている
   const [formValues,setFormValues] = useState(initialValues);
   const [formErrors,setFormErrors] = useState({});
 
-  // const handleChange= (e) => {
-  //   // e.target: タグの要素を得ることができる
-  //   const {name,value}=e.target;
-  //   // name:value: initialValuesのusername
-  //   // value: inputで打ち込んだ文字列->name(usename)に格納
-  //   setFormValues({...formValues,[name]:value});
-  // }
+  const handleSubmit = async(e) =>{
+  e.preventDefault();
+  try{
+    const newUser = {
+    // userName: e.target['userName'].value,
+    username: e.target['user'].value,
+    email: e.target['mailAddress'].value,
+    password: e.target['pass'].value ,
+  };
 
-  const handleSubmit=(e)=>{
-    e.preventDefault();
-    loginCall(
-      {
-        // userの中身
-        userName: userName.current.value,
-        email: email.current.value,
-        password: password.current.value,
-      },
-      dispatch
-    );
+    //package.jsonにproxy設定(http://localhost:5000省略)
+    //registerAPIを叩く -> routesないのファイルで指定したroute.postの第一引数のエンドポイントを指定することでアクセス
+    //第二引数:登録するデータ
+    console.log(newUser)
+    await axios.post("http://localhost:5000/api/auth/register" , newUser);
+    window.location.reload();
+    console.log("新規登録されました");
+  }catch(err){
+    console.log(err);
   }
-
+};
 
   return(
     <body className="log">
       <div className="formContainer">
         <form onSubmit={(e) => handleSubmit(e)}>
-          <h1>ログイン</h1>
+          <h1>新規登録</h1>
           {/* 横線 */}
           <hr/>
           {/* User Pass入力する大枠 */}
           <div className="uiForm">
             {/* User */}
+
             <div className="formField">
-              <label>User: </label>
+              <label>User Name : </label>
               {/* name属性 : JSに使用 */}
               {/* onChange(): 入力された時に発火する */}
               <input
                 type="text"
-                placeholder="ユーザ名"
-                name="userName"
+                placeholder="ユーザネーム"
+                name="user"
                 //onChange={(e)=>handleChange(e)}
                 required
-                ref={userName}
+                ref={username}
               />
             </div>
 
@@ -69,7 +71,7 @@ function Login (){
               <input
                 type="email"
                 placeholder="メールアドレス"
-                name="email"
+                name="mailAddress"
                 //onChange={(e)=>handleChange(e)}
                 required
                 ref={email}
@@ -82,7 +84,7 @@ function Login (){
               <input
                 type="password"
                 placeholder="パスワード"
-                name="password"
+                name="pass"
                 //onChange={(e)=>handleChange(e)}
                 required
                 minLength="6"
@@ -91,10 +93,7 @@ function Login (){
             </div>
             <p className="errorMsg">{formErrors.password}</p>
 
-            <button className="loginButton">ログイン</button>
-            <Link to="/register">
-              <button className="loginButton">アカウント作成</button>
-            </Link>
+            <button className="loginButton">新規登録</button>
           </div>
 
         </form>
@@ -103,4 +102,4 @@ function Login (){
   )
 }
 
-export default Login;
+export default Register;

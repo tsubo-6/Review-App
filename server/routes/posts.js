@@ -44,6 +44,17 @@ router.post("/", async (req,res) => {
   }
 });
 
+//全ての投稿を取得
+  router.get("/" , async (req,res) => {
+  try{
+    // find() : DBのデータ全権取得
+    const posts = await Post.find();
+    return res.status(200).json(posts);
+  }catch(err){
+    return res.status(403).json(err);
+  }
+});
+
 //投稿を修正するAPI
 router.put("/:id", async(req,res) =>{
   try{

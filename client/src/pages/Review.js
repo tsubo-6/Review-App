@@ -4,8 +4,12 @@ import { Button, Container, Stack, TextField,InputLabel, Paper,Select, MenuItem,
 import FormData from "form-data";
 // 特定のエンドポイントへのリクエストを送信できるようにする、HTTPクライアント
 import axios from "axios";
+import { useNavigate } from "react-router-dom"
+
 
 function Review() {
+  const navigation = useNavigate()
+
   const userName = useRef("");
   const shopName = useRef("");
   const visit = useRef("");
@@ -53,7 +57,8 @@ const handleSubmit = async(e) =>{
       postData,
       headers
     );
-    window.location.reload();
+    // window.location.reload();
+    navigation("/review/complete")
   }catch(err){
     console.log(err);
   }
@@ -120,7 +125,12 @@ const handleSubmit = async(e) =>{
               label="本文"
               size="medium"
               inputRef={desc}/>
-              <Button color="primary" variant="contained" size="large" type="submit">
+              <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              type="submit"
+              >
                 投稿
               </Button>
             </Stack>

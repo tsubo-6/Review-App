@@ -18,9 +18,9 @@ export const SidebarData = [
     link: "/review",
   },
   {
-    title: "友達",
+    title: "全体のレビュー",
     icon: <AssignmentIndIcon/>,
-    link: "/friend",
+    link: "/allReview",
   },
   {
     title: "お支払い設定",

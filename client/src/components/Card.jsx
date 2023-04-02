@@ -18,10 +18,11 @@ import { AuthContext } from '../states/AuthContext';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@mui/material/Button';
-
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function RecipeReviewCard({post}) {
+
   // //投稿された情報を格納 @
   // const [posts, setPosts]=useState({});
   // //ログイン時のユーザ情報
@@ -93,7 +94,7 @@ export default function RecipeReviewCard({post}) {
           </CardActions>
         }
         title={post.shopName}
-        subheader={(post.visit).substr(0,10)}
+        subheader={(post.visit).substr(0,10)  }
         // subheader={post._id}
       />
 

@@ -12,9 +12,7 @@ const uploadRoute = require("./routes/upload.js");
 const app=express()
 const mongoose = require("mongoose");
 // require("dotenv").config();
-
 const path = require("path")
-
 const PORT = 5000;
 
 //mongoDBとデータベース接続

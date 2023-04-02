@@ -1,8 +1,7 @@
-import {useState,useRef,useContext} from "react";
+import {useRef,useContext} from "react";
 import { Link } from "react-router-dom";
 import {AuthContext} from "../states/AuthContext"
 import {loginCall} from "../actionCalls"
-import { useForm } from 'react-hook-form';
 
 function Login (){
   const userName=useRef();
@@ -10,19 +9,7 @@ function Login (){
   const password=useRef();
   //AuthContext内のvalue
   const {user,isFetching,error,dispatch}= useContext(AuthContext);
-
   const initialValues ={username:"",email:"",password:""};
-  // 変数formValuesには初期値としてオブジェクトinitialValuesが格納されている
-  const [formValues,setFormValues] = useState(initialValues);
-  const [formErrors,setFormErrors] = useState({});
-
-  // const handleChange= (e) => {
-  //   // e.target: タグの要素を得ることができる
-  //   const {name,value}=e.target;
-  //   // name:value: initialValuesのusername
-  //   // value: inputで打ち込んだ文字列->name(usename)に格納
-  //   setFormValues({...formValues,[name]:value});
-  // }
 
   const handleSubmit=(e)=>{
     e.preventDefault();
@@ -36,7 +23,6 @@ function Login (){
       dispatch
     );
   }
-
 
   return(
     <body className="log">
@@ -75,7 +61,6 @@ function Login (){
                 ref={email}
               />
             </div>
-            <p className="errorMsg">{formErrors.mailAddress}</p>
             <div className="formField">
               <label>Password : </label>
               {/* name属性 : JSに使用 */}
@@ -89,7 +74,6 @@ function Login (){
                 ref={password}
               />
             </div>
-            <p className="errorMsg">{formErrors.password}</p>
 
             <button className="loginButton">ログイン</button>
             <Link to="/register">

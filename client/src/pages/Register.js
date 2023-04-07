@@ -1,7 +1,6 @@
-import {useState,useRef,useContext} from "react";
+import {useState,useRef} from "react";
 import { Link } from "react-router-dom";
-import {AuthContext} from "../states/AuthContext"
-import {loginCall} from "../actionCalls"
+
 import axios from "axios";
 
 
@@ -9,8 +8,6 @@ function Register (){
   const username=useRef("");
   const email=useRef("");
   const password=useRef("");
-
-  const {user,isFetching,error,dispatch}= useContext(AuthContext);
 
   const initialValues ={username:"",password:""};
   // 変数formValuesには初期値としてオブジェクトinitialValuesが格納されている
@@ -32,7 +29,7 @@ function Register (){
     //第二引数:登録するデータ
     console.log(newUser)
     await axios.post("http://localhost:5000/api/auth/register" , newUser);
-    window.location.reload();
+    // window.location.reload();
     console.log("新規登録されました");
   }catch(err){
     console.log(err);

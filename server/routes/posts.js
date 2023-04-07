@@ -35,8 +35,8 @@ router.post("/", async (req,res) => {
     // 変数postにreq.paramsで取得したusernameと合致するデータセットを格納
     const user=await Post.findOne({userName:req.params.username});
     const posts = await Post.find({userName: user.userName});
-
-    // console.log("posts:"+posts);
+    console.log("router.get"+post)
+    // res.render("/client/src/pages/Main.js")
     return res.status(200).json(posts);
   }catch(err){
     //スキーマの条件を満たしていないときなど
@@ -49,6 +49,7 @@ router.post("/", async (req,res) => {
   try{
     // find() : DBのデータ全権取得
     const posts = await Post.find();
+    console.log(posts)
     return res.status(200).json(posts);
   }catch(err){
     return res.status(403).json(err);

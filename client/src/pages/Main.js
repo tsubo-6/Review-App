@@ -2,7 +2,6 @@ import Navbar from "../components/Navbar.jsx"
 import Sidebar from '../components/Sidebar.jsx'
 import RecipeReviewCard from "../components/Card"
 import React,{useState,useEffect,useContext} from 'react';
-import { AuthContext } from '../states/AuthContext';
 import axios from "axios"
 
 // 親コンポーネント
@@ -11,15 +10,15 @@ function Main(){
   //投稿された情報を格納 @
   const [posts, setPosts]=useState([]);
   //ログイン時のユーザ情報
-  const {user} = useContext(AuthContext)
+  //const {user} = useContext(AuthContext)
 
   //useEffectの無名関数にasyncがつけられない
   useEffect(()=>{
     //promise状態（データ取得中）を回避
     const fetchPosts=async ()=>{
-      // 3/16
-      // const response = await axios.get("http://localhost:5000/api/posts/", {
-      const response = await axios.get("http://localhost:5000/api/posts/"+user.username, {
+      const response = await axios.get("http://localhost:5000/api/posts", {
+        //4/2
+      // const response = await axios.get("http://localhost:5000/api/posts/"+user.username, {
 
       //送りたいパラメータの指定
       // params: {username: user.useName}
@@ -29,7 +28,7 @@ function Main(){
     };
     fetchPosts();
 
-  },[user.username, user._id])
+  },[])
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
 

@@ -1,8 +1,7 @@
 import Navbar from "../components/Navbar.jsx"
 import Sidebar from '../components/Sidebar.jsx'
 import RecipeReviewCard from "../components/Card"
-import React,{useState,useEffect,useContext} from 'react';
-import { AuthContext } from '../states/AuthContext';
+import React,{useState,useEffect} from 'react';
 import axios from "axios"
 
 function AllReview() {
@@ -10,7 +9,7 @@ function AllReview() {
 
   useEffect(()=>{
     const fetchPosts=async ()=>{
-      const response = await axios.get("http://localhost:5000/api/posts/", {
+      const response = await axios.get("http://localhost:5000/api/posts", {
     });
       setPosts(response.data)
     };

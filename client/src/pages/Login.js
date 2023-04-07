@@ -1,33 +1,32 @@
-import {useRef,useContext} from "react";
+import {useRef} from "react";
 import { Link } from "react-router-dom";
-import {AuthContext} from "../states/AuthContext"
-import {loginCall} from "../actionCalls"
+import axios from "axios";
 
 function Login (){
-  const userName=useRef();
-  const email=useRef();
-  const password=useRef();
-  //AuthContext内のvalue
-  const {user,isFetching,error,dispatch}= useContext(AuthContext);
-  const initialValues ={username:"",email:"",password:""};
+  const userName=useRef("");
+  const email=useRef("");
+  const password=useRef("");
 
-  const handleSubmit=(e)=>{
+  const handleSubmit= async(e)=>{
     e.preventDefault();
-    loginCall(
-      {
-        // userの中身
-        userName: userName.current.value,
-        email: email.current.value,
-        password: password.current.value,
-      },
-      dispatch
-    );
+    try{
+      const loginData ={
+        username : e.target["userName"].value,
+        email: e.target['email'].value,
+        password: e.target['password'].value ,
+      }
+      await axios.post("http://localhost:5000/api/auth/login",loginData);
+      this.history.pushState(null, "" , res.redirectUrl)
+    }catch(err){
+      console.log(err);
+    }
   }
 
   return(
     <body className="log">
       <div className="formContainer">
-        <form onSubmit={(e) => handleSubmit(e)}>
+        {/* <form onSubmit={(e) => handleSubmit(e)}> */}
+        <form onSubmit={(e)=> handleSubmit(e)}>
           <h1>ログイン</h1>
           {/* 横線 */}
           <hr/>
@@ -74,13 +73,12 @@ function Login (){
                 ref={password}
               />
             </div>
-
             <button className="loginButton">ログイン</button>
+
             <Link to="/register">
               <button className="loginButton">アカウント作成</button>
             </Link>
           </div>
-
         </form>
       </div>
     </body>

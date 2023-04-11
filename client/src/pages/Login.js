@@ -1,11 +1,12 @@
 import {useRef} from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login (){
   const userName=useRef("");
   const email=useRef("");
   const password=useRef("");
+  const navigate = useNavigate();
 
   const handleSubmit= async(e)=>{
     e.preventDefault();
@@ -15,11 +16,17 @@ function Login (){
         email: e.target['email'].value,
         password: e.target['password'].value ,
       }
-      await axios.post("http://localhost:5000/api/auth/login",loginData);
-      this.history.pushState(null, "" , res.redirectUrl)
+      await axios.post("http://localhost:5000/api/auth/login",
+      loginData,
+      );
+      navigate("main")
     }catch(err){
       console.log(err);
     }
+  }
+
+  const errMsg = (req,res) =>{
+    req.flash('err')
   }
 
   return(
@@ -74,7 +81,7 @@ function Login (){
               />
             </div>
             <button className="loginButton">ログイン</button>
-
+            <p>{errMsg}</p>
             <Link to="/register">
               <button className="loginButton">アカウント作成</button>
             </Link>

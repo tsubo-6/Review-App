@@ -4,6 +4,10 @@ const path = require('path');
 //ファイル読み込み
 const Post = require("../models/Post");
 
+const session = require("express-session")
+const passport = require("passport")
+
+
 // http://localhost:5000/api/posts/でpostリクエストが飛んできた時に実行される
 router.post("/", async (req,res) => {
 
@@ -46,15 +50,32 @@ router.post("/", async (req,res) => {
 
 //全ての投稿を取得
   router.get("/" , async (req,res) => {
+    // console.log("serialize(posts.js):"+req.session.passport)
   try{
     // find() : DBのデータ全権取得
     const posts = await Post.find();
-    console.log(posts)
+    // console.log(posts)
     return res.status(200).json(posts);
   }catch(err){
     return res.status(403).json(err);
   }
 });
+
+//   router.get("/" , async (req,res) => {
+//   try{
+//     // :idに設定したparams
+//     // 変数postにreq.paramsで取得したusernameと合致するデータセットを格納
+//     const user=await Post.findOne({userName:req.username});
+//     const posts = await Post.find({userName:user.userName});
+//     console.log("router.get"+post)
+//     // res.render("/client/src/pages/Main.js")
+//     return res.status(200).json(posts);
+//   }catch(err){
+//     //スキーマの条件を満たしていないときなど
+//     return res.status(403).json(err);
+//   }
+// });
+
 
 //投稿を修正するAPI
 router.put("/:id", async(req,res) =>{

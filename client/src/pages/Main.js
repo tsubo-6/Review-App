@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar.jsx"
 import Sidebar from '../components/Sidebar.jsx'
 import RecipeReviewCard from "../components/Card"
-import React,{useState,useEffect,useContext} from 'react';
+import React,{useState,useEffect} from 'react';
 import axios from "axios"
 
 // 親コンポーネント
@@ -10,7 +10,6 @@ function Main(){
   //投稿された情報を格納 @
   const [posts, setPosts]=useState([]);
   //ログイン時のユーザ情報
-  //const {user} = useContext(AuthContext)
 
   //useEffectの無名関数にasyncがつけられない
   useEffect(()=>{
@@ -18,7 +17,7 @@ function Main(){
     const fetchPosts=async ()=>{
       const response = await axios.get("http://localhost:5000/api/posts", {
         //4/2
-      // const response = await axios.get("http://localhost:5000/api/posts/"+user.username, {
+      // const response = await axios.get("http://localhost:5000/api/posts/"+username, {
 
       //送りたいパラメータの指定
       // params: {username: user.useName}

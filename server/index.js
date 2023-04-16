@@ -36,20 +36,22 @@ app.use(cors())
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")))
 app.use(express.json());
 
+app.use(express.urlencoded( { extended: false }));
+
 //passpport.jsの初期設定
 // app.use(express.urlencoded( { extended: true }))
 // app.use(flash());
 // app.use(cookieParser())
-// app.use(session({
-//   secret: 'secret',
-//   name: "session",
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: { secure:false,httpOnly: true, maxAge:  24 * 60 * 60 * 1000 },
-// }));
+app.use(session({
+  secret: 'secret',
+  name: "session",
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure:false,httpOnly: true, maxAge:  24 * 60 * 60 * 1000 },
+}));
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // passport.use("local",new LocalStrategy(
 // // done:コールバック関数

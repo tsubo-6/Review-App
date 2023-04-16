@@ -34,6 +34,7 @@ router.post("/", async (req,res) => {
   //usernameから投稿取得
   // router.get("/" , async (req,res) => {
   router.get("/:username" , async (req,res) => {
+
   try{
     // :idに設定したparams
     // 変数postにreq.paramsで取得したusernameと合致するデータセットを格納
@@ -50,8 +51,11 @@ router.post("/", async (req,res) => {
 
 //全ての投稿を取得
   router.get("/" , async (req,res) => {
-    // console.log("serialize(posts.js):"+req.session.passport)
-  try{
+    console.log("post.js");
+    // deserialize動作確認
+    console.log(req.user);
+
+    try{
     // find() : DBのデータ全権取得
     const posts = await Post.find();
     // console.log(posts)

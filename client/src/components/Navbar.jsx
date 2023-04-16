@@ -18,8 +18,8 @@ function Navbar(props){
   // const [visible, setVisible] = useState(false);
   const handleClick = async(e)=>{
     e.preventDefault();
-    await axios.get("http://localhost:5000/api/auth/logout");
-    navigate('');
+    await axios.get("/api/auth/logout");
+    navigate('/');
   }
 
   return(

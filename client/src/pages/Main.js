@@ -26,7 +26,6 @@ function Main(){
       setPosts(response.data)
     };
     fetchPosts();
-
   },[])
 
   const [sidebarVisible, setSidebarVisible] = useState(false);

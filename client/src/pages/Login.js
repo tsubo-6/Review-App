@@ -16,7 +16,7 @@ function Login (){
         email: e.target['email'].value,
         password: e.target['password'].value ,
       }
-      await axios.post("http://localhost:5000/api/auth/login",
+      await axios.post("/api/auth/login",
       loginData,
       );
       navigate("main")

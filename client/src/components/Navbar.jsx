@@ -4,12 +4,23 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import {Button} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"
+
 // import { useState} from "react";
 
 function Navbar(props){
+  const navigate = useNavigate();
+
   // const [visible, setVisible] = useState(false);
+  const handleClick = async(e)=>{
+    e.preventDefault();
+    await axios.get("/api/auth/logout");
+    navigate('/');
+  }
 
   return(
     <div className="Nav">
@@ -43,7 +54,7 @@ function Navbar(props){
             </Typography>
             {/* <Button color="secondary">Login</Button> */}
             {/* <a href="/login">Login</a> */}
-            <Link to="/">Logout</Link>
+            <Button color="inherit" onClick={(e)=>handleClick(e)}>Logout</Button>
           </Toolbar>
         </AppBar>
       </Box>

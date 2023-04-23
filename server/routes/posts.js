@@ -3,7 +3,7 @@ const router = require("express").Router();
 const path = require('path');
 //ファイル読み込み
 const Post = require("../models/Post");
-
+const User = require("../models/User");
 const session = require("express-session")
 const passport = require("passport")
 
@@ -33,17 +33,22 @@ router.post("/", async (req,res) => {
 
   //usernameから投稿取得
   // router.get("/" , async (req,res) => {
-  router.get("/:username" , async (req,res) => {
+  router.get("/usersPosts" , async (req,res) => {
 
   try{
     // :idに設定したparams
+    // console.log("req.user"+req.user)
     // 変数postにreq.paramsで取得したusernameと合致するデータセットを格納
-    const user=await Post.findOne({userName:req.params.username});
-    const posts = await Post.find({userName: user.userName});
-    console.log("router.get"+post)
+    // const user=await User.findOne({userName:req.user.username});
+    const posts = await Post.find({userName: req.user.username});
+    // console.log("user:"+req.user)
+
+    console.log("username:"+req.user.username)
+    console.log("posts:"+posts)
     // res.render("/client/src/pages/Main.js")
     return res.status(200).json(posts);
   }catch(err){
+    console.log(err)
     //スキーマの条件を満たしていないときなど
     return res.status(403).json(err);
   }
@@ -51,10 +56,7 @@ router.post("/", async (req,res) => {
 
 //全ての投稿を取得
   router.get("/" , async (req,res) => {
-    console.log("post.js");
-    // deserialize動作確認
-    console.log(req.user);
-
+    // console.log("review表示:"+req.user)
     try{
     // find() : DBのデータ全権取得
     const posts = await Post.find();

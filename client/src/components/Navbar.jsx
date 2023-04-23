@@ -6,13 +6,13 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import {Button} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
 
-// import { useState} from "react";
-
 function Navbar(props){
+  // isAuthenticate: initialStateのオブジェクト内からとってくる
+  //const {isAuthenticate} = useSelector((store)=>store.isAuthLogin)
+
   const navigate = useNavigate();
 
   // const [visible, setVisible] = useState(false);

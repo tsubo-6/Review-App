@@ -1,12 +1,15 @@
 import {useRef} from "react";
 import { Link,useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch} from 'react-redux'
+import {isCookie} from "../features/AuthLoginSlice"
 
 function Login (){
   const userName=useRef("");
   const email=useRef("");
   const password=useRef("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit= async(e)=>{
     e.preventDefault();
@@ -19,12 +22,17 @@ function Login (){
       await axios.post("/api/auth/login",
       loginData,
       );
-      navigate("main")
+      const response = await axios.get("/api/auth/");
+      if(response.data){
+        dispatch(isCookie(response.data))
+        navigate("main")
+      }
+      // console.log(response.data)
+      // navigate("main")
     }catch(err){
       console.log(err);
     }
   }
-
   const errMsg = (req,res) =>{
     req.flash('err')
   }

@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 // 特定のエンドポイントへのリクエストを送信できるようにする、HTTPクライアント
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-
+import { useNavigate} from "react-router-dom"
+import { useSelector, useDispatch} from 'react-redux'
+import {logout,isCookie} from "../features/AuthLoginSlice"
 
 function Modify() {
   const loca = useLocation();
@@ -17,6 +19,16 @@ function Modify() {
   const {cur}=loca.state;
   const {des}=loca.state;
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state)=>state.authLogin.isAuthenticate);
+
+  useEffect(()=>{
+    if(!userInfo){
+      dispatch(logout())
+      navigate("/")
+    }
+  },[])
 
   //取得した投稿データ取得
   // const [post, setPost] = useState({});

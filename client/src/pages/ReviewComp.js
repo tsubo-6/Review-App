@@ -6,7 +6,7 @@ function ReviewComp() {
   const navigation = useNavigate()
 
   const handleClick = async(e) =>{
-    navigation("/")
+    navigation("/main")
     console.log(e.target)
   }
 
@@ -14,7 +14,7 @@ function ReviewComp() {
     <div>
       <Navbar/>
       <label>投稿が完了しました!</label>
-      <button onClick={(e)=>handleClick}>ログイン画面へ戻る</button>
+      <button onClick={(e)=>handleClick}>メイン画面へ戻る</button>
     </div>
   )
 }

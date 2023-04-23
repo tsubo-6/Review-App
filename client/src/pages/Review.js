@@ -1,14 +1,33 @@
-import React,{useRef,useState} from 'react'
+import React,{useRef,useState,useEffect} from 'react'
 import Navbar from '../components/Navbar'
 import { Button, Container, Stack, TextField,InputLabel, Paper,Select, MenuItem, Link} from '@mui/material'
 import FormData from "form-data";
 // 特定のエンドポイントへのリクエストを送信できるようにする、HTTPクライアント
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
-
+import { useSelector, useDispatch} from 'react-redux'
+import {logout} from "../features/AuthLoginSlice"
+import Sidebar from '../components/Sidebar';
 
 function Review() {
   const navigation = useNavigate()
+  const dispatch = useDispatch();
+  //const userInfo = useSelector((state)=>state.authLogin.isAuthenticate);
+
+ useEffect(()=>{
+    //promise状態（データ取得中）を回避
+    const fetchPosts=async ()=>{
+      const response = await axios.get("/api/auth/");
+      console.log("userInfo:"+response.data)
+      if(!response){
+        dispatch(logout())
+        navigation("/")
+      }
+    }
+    fetchPosts();
+  },[])
+
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const userName = useRef("");
   const shopName = useRef("");
@@ -66,7 +85,12 @@ const handleSubmit = async(e) =>{
 
   return (
     <div>
-      <Navbar/>
+      <Navbar
+        setSidebarVisible={setSidebarVisible}
+        sidebarVisible={sidebarVisible}
+        />
+      <Sidebar sidebarVisible={sidebarVisible}/>
+
       <Container maxWidth="sm" sx={{ pt: 5 }}>
         {/* Paper : 浮かび具合を調整できる「紙」を表示する */}
         <Paper elevation={5} sx={{ padding: 4, marginY: 2 }}>

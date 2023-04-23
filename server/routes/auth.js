@@ -13,16 +13,16 @@ const { default: mongoose } = require("mongoose");
 router.use(express.urlencoded( { extended: true }))
 router.use(flash());
 
-router.use(session({
-  secret: 'secret',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure:false,httpOnly: false, maxAge:  24 * 60 * 60 * 1000 },
-}));
+// router.use(session({
+//   secret: 'secret',
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: { secure:false,httpOnly: false, maxAge:  24 * 60 * 60 * 1000 },
+// }));
 
-router.use(passport.initialize());
-//セッション管理
-router.use(passport.session());
+// router.use(passport.initialize());
+// //セッション管理
+// router.use(passport.session());
 
 // strategyの設定
 // passportとStrategyの関連付け
@@ -36,26 +36,13 @@ async (username, password, done) => {
     }else if(user.password != password){
       return done(null, false, { message: "ユーザ名またはメールアドレスが正しくありません" });
     }else{
-      return done(null,user);
+      console.log("login:" + user._id)
+      return done(null,user._id);
     }
   }catch(err){
     console.error(err);
     return done(err);
   }
-  // await User.findOne({ username }) , (user, err) => {
-  //   // console.log("userInfo:"+user)
-  //   if (err) {
-  //     return done("Error:" + err);
-  //   }
-  //   if (!user || user.password != password) {
-  //     //req.flash("")
-  //     return done(null, false, { message: "ユーザ名またはメールアドレスが正しくありません" });
-  //   } else {
-  //     // serializeUserの第一引数に受け渡される
-  //     // 保存するデータは最小限に
-  //     return done(null, {username:username,password:password});
-  //   }
-  // };
 }
 ))
 
@@ -64,20 +51,12 @@ async (username, password, done) => {
 passport.serializeUser((id, done)=> {
   console.log("serialize:" + id)
   done(null, id);
-    // done(null, user);
 });
 
 //IDからユーザ情報を取得しreq.userに格納する
-// passport.deserializeUser(async (id, done) => {
-//   console.log("deserialize:" + id);
-//    await User.findById({id}),(err, user)=>{
-//     // console.log("deserialize:" + user);
-//     done(null, user);
-//   }
-// });
-
-passport.deserializeUser((user, done) =>{
-  console.log("deserialize"+ user);
+passport.deserializeUser(async (id, done) =>{
+  console.log("deserialize:"+ id);
+  const user=await User.findOne({_id:id});
   done(null,user);
 });
 
@@ -88,7 +67,7 @@ router.post("/register", async (req, res) => {
     //作成したスキーマをnewする
     const newUser = await new User({
       //reqに含まれるpostmanのbodyから取ってくる
-      userName: req.body.username,
+      username: req.body.username,
       email: req.body.email,
       password: req.body.password,
     });
@@ -103,21 +82,42 @@ router.post("/register", async (req, res) => {
 
 // 4/2~
 //passport.jsでのログイン
+// authenticate()=自動的にreq.login()を実行
 router.post("/login", passport.authenticate('local', {
-    //successRedirect: 'http://localhost:3000/main',
     failureRedirect: '/', // 認証失敗した場合の飛び先
-    // keepSessionInfo: true,
     // failureFlash:true,
     session: true,
   }),
   (req,res)=>{
-    return res.redirect(200, "/main")
-  // return res.status(200).json({
-  //   // success:true,
-  //   redirectUrl: '/main'
-  // })
-}
+    req.login(req.user, (err) =>{
+      //console.log("seria"+req.session.passport.user)
+      if(err){return next(err);}
+      else{
+        return res.redirect(200, "/main")
+      }
+      // return res.redirect(200, "/main")
+    })
+  }
 )
+
+//ユーザ情報を取得するAPI
+router.get('/', async(req,res)=>{
+  if(req.user){
+    return res.send(req.user.username);
+  }
+  else{
+    return res.send(false);
+  }
+  // try{
+  //   const currentUserID = req.user;
+  //   const user=await User.findById(currentUserID);
+  //   console.log("ユーザ情報:"+user)
+  //   return res.status(200).json(user);
+  // } catch (err) {
+  //   return res.status(500).json(err);
+  // }
+});
+
 
 router.get("/logout",(req,res) =>{
   req.session.destroy( (err)=> {
@@ -130,7 +130,7 @@ router.get("/logout",(req,res) =>{
 })
 // 4/2 ここまで
 
-//ログイン
+// ログイン
 // router.post("/login", async (req,res) =>{
 //   try{
 //     //ユニークなユーザを探すfindOne

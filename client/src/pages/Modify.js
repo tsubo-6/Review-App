@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate} from "react-router-dom"
 import { useSelector, useDispatch} from 'react-redux'
 import {logout,isCookie} from "../features/AuthLoginSlice"
+import { persistor } from "./../store";
 
 function Modify() {
   const loca = useLocation();
@@ -21,14 +22,19 @@ function Modify() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userInfo = useSelector((state)=>state.authLogin.isAuthenticate);
+  const persistedState = persistor.getState();
 
   useEffect(()=>{
-    if(!userInfo){
-      dispatch(logout())
-      navigate("/")
+    //promise状態（データ取得中）を回避
+    const fetchPosts=async ()=>{
+      console.log("userInfo:"+persistedState.isAuthenticate)
+      if(persistedState.isAuthenticate==null){
+        navigate("/")
+      }
     }
+    fetchPosts();
   },[])
+
 
   //取得した投稿データ取得
   // const [post, setPost] = useState({});

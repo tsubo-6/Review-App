@@ -8,6 +8,7 @@ import {Button} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
+import { persistor } from './../store'
 
 function Navbar(props){
   // isAuthenticate: initialStateのオブジェクト内からとってくる
@@ -18,6 +19,7 @@ function Navbar(props){
   // const [visible, setVisible] = useState(false);
   const handleClick = async(e)=>{
     e.preventDefault();
+    persistor.purge()
     await axios.get("/api/auth/logout");
     navigate('/');
   }

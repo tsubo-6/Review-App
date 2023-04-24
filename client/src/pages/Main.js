@@ -6,6 +6,7 @@ import axios from "axios"
 import { useNavigate} from "react-router-dom"
 import { useSelector, useDispatch} from 'react-redux'
 import {logout,isCookie} from "../features/AuthLoginSlice"
+import { persistor } from "./../store";
 
 // 親コンポーネント
 function Main(){
@@ -14,7 +15,7 @@ function Main(){
   //ログイン時のユーザ情報
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userInfo = useSelector((state)=>state.authLogin.isAuthenticate);
+  const persistedState = persistor.getState();
 
   //useEffectの無名関数にasyncがつけられない
   useEffect(()=>{

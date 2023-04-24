@@ -1,4 +1,4 @@
-import {useRef} from "react";
+import {useRef,useState} from "react";
 import { Link,useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch} from 'react-redux'
@@ -11,6 +11,8 @@ function Login (){
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [msg,setMsg] = useState("");
+
   const handleSubmit= async(e)=>{
     e.preventDefault();
     try{
@@ -22,6 +24,10 @@ function Login (){
       await axios.post("/api/auth/login",
       loginData,
       );
+      console.log(e.target)
+      if(e.target["username"]!==loginData.username){
+        setMsg("ユーザ名、メールアドレスまたはパスワードが違います")
+      }
       const response = await axios.get("/api/auth/");
       if(response.data){
         dispatch(isCookie(response.data))
@@ -88,8 +94,8 @@ function Login (){
                 ref={password}
               />
             </div>
+            <font color="red"><strong>{msg}</strong></font>
             <button className="loginButton">ログイン</button>
-            <p>{errMsg}</p>
             <Link to="/register">
               <button className="loginButton">アカウント作成</button>
             </Link>

@@ -8,19 +8,19 @@ import { useNavigate } from "react-router-dom"
 import { useSelector, useDispatch} from 'react-redux'
 import {logout} from "../features/AuthLoginSlice"
 import Sidebar from '../components/Sidebar';
+import { persistor } from "./../store";
 
 function Review() {
   const navigation = useNavigate()
   const dispatch = useDispatch();
   //const userInfo = useSelector((state)=>state.authLogin.isAuthenticate);
+  const persistedState = persistor.getState();
 
  useEffect(()=>{
     //promise状態（データ取得中）を回避
     const fetchPosts=async ()=>{
-      const response = await axios.get("/api/auth/");
-      console.log("userInfo:"+response.data)
-      if(!response){
-        dispatch(logout())
+      console.log("userInfo:"+persistedState.isAuthenticate)
+      if(persistedState.isAuthenticate==null){
         navigation("/")
       }
     }

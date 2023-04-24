@@ -3,12 +3,20 @@ import Sidebar from '../components/Sidebar.jsx'
 import RecipeReviewCard from "../components/Card"
 import React,{useState,useEffect} from 'react';
 import axios from "axios"
+import { persistor } from "./../store";
+import { useNavigate } from "react-router-dom"
 
 function AllReview() {
   const [posts, setPosts]=useState([]);
+  const navigation = useNavigate()
+
+  const persistedState = persistor.getState();
 
   useEffect(()=>{
     const fetchPosts=async ()=>{
+      if(persistedState.isAuthenticate==null){
+        return navigation("/")
+      }
       const response = await axios.get("http://localhost:5000/api/posts", {
     });
       setPosts(response.data)

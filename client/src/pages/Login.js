@@ -24,9 +24,11 @@ function Login (){
       await axios.post("/api/auth/login",
       loginData,
       );
-      console.log(e.target)
-      if(e.target["username"]!==loginData.username){
-        setMsg("ユーザ名、メールアドレスまたはパスワードが違います")
+      // 修正
+      if(e.target["userName"].value!==loginData.username){
+        console.log(e.target["userName"].value)
+        console.log(loginData.username)
+        return setMsg("ユーザ名、メールアドレスまたはパスワードが違います")
       }
       const response = await axios.get("/api/auth/");
       if(response.data){
@@ -34,13 +36,10 @@ function Login (){
         navigate("main")
       }
       // console.log(response.data)
-      // navigate("main")
+      //navigate("main")
     }catch(err){
       console.log(err);
     }
-  }
-  const errMsg = (req,res) =>{
-    req.flash('err')
   }
 
   return(

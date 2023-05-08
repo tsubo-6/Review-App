@@ -1,13 +1,13 @@
 import {useState,useRef} from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 import axios from "axios";
-
 
 function Register (){
   const username=useRef("");
   const email=useRef("");
   const password=useRef("");
+  const navigate = useNavigate()
 
   const initialValues ={username:"",password:""};
   // 変数formValuesには初期値としてオブジェクトinitialValuesが格納されている
@@ -29,8 +29,7 @@ function Register (){
     //第二引数:登録するデータ
     console.log(newUser)
     await axios.post("http://localhost:5000/api/auth/register" , newUser);
-    // window.location.reload();
-    console.log("新規登録されました");
+    navigate("/register/complete")
   }catch(err){
     console.log(err);
   }
@@ -55,12 +54,10 @@ function Register (){
                 type="text"
                 placeholder="ユーザネーム"
                 name="user"
-                //onChange={(e)=>handleChange(e)}
                 required
                 ref={username}
               />
             </div>
-
             <div className="formField">
               <label>Mail Address : </label>
               {/* name属性 : JSに使用 */}
@@ -69,7 +66,6 @@ function Register (){
                 type="email"
                 placeholder="メールアドレス"
                 name="mailAddress"
-                //onChange={(e)=>handleChange(e)}
                 required
                 ref={email}
               />
@@ -82,17 +78,14 @@ function Register (){
                 type="password"
                 placeholder="パスワード"
                 name="pass"
-                //onChange={(e)=>handleChange(e)}
                 required
                 minLength="6"
                 ref={password}
               />
             </div>
             <p className="errorMsg">{formErrors.password}</p>
-
             <button className="loginButton">新規登録</button>
           </div>
-
         </form>
       </div>
     </body>

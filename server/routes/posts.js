@@ -8,6 +8,7 @@ const session = require("express-session")
 const passport = require("passport")
 
 
+
 // http://localhost:5000/api/posts/でpostリクエストが飛んできた時に実行される
 router.post("/", async (req,res) => {
 
@@ -67,6 +68,19 @@ router.post("/", async (req,res) => {
   }
 });
 
+//お気に入り投稿を取得
+  router.get("/favorites" , async (req,res) => {
+    // console.log("review表示:"+req.user)
+    try{
+    // find() : DBのデータ全権取得
+    const posts = await Post.find({_id:req.user.favorites});
+    // console.log(posts)
+    return res.status(200).json(posts);
+  }catch(err){
+    return res.status(403).json(err);
+  }
+});
+
 //   router.get("/" , async (req,res) => {
 //   try{
 //     // :idに設定したparams
@@ -110,5 +124,64 @@ router.delete("/:id" ,async(req,res)=>{
     return res.status(403).json(err);
   }
 })
+
+//投稿をいいねするAPI
+router.put("/:id/like" ,async(req,res)=>{
+  const likeUser = req.user
+  console.log("likeuser:"+likeUser)
+  try{
+    const post= await Post.findById(req.params.id);
+    //console.log("ここ"+req.body.userId)
+    if(!post.likes.includes(likeUser._id)){
+      await post.updateOne({
+        $push:{
+          likes: likeUser._id
+        }
+      });
+      return res.status(200).json("投稿にいいねを押しました")
+    }else{
+      //いいねしたユーザの🆔を取り除く
+      await post.updateOne({
+        $pull:{
+          likes: likeUser._id
+        }
+      })
+      return res.status(200).json("いいねを外しました")
+    }
+  }catch(err){
+    return res.status(500).json(err)
+  }
+});
+
+//いいねした投稿を保存するAPI
+router.put("/:id/favorites" ,async(req,res)=>{
+  const id = req.user._id
+  //onsole.log("id:"+id)
+  const likeUser = await User.findById(id)
+  //console.log("likeuser:"+likeUser)
+  try{
+    const post= await Post.findById(req.params.id);
+    //console.log("ここ:"+post)
+    if(!likeUser.favorites.includes(post._id)){
+      await likeUser.updateOne({
+        $push:{
+          favorites: post._id
+        }
+      });
+      return res.status(200).json("いいねを保存")
+    }else{
+      //いいねしたユーザの🆔を取り除く
+      await likeUser.updateOne({
+        $pull:{
+          favorites: post._id
+        }
+      })
+      return res.status(200).json("いいねを外しました")
+    }
+  }catch(err){
+    return res.status(500).json(err)
+  }
+});
+
 
 module.exports=router;

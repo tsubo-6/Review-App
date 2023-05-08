@@ -23,9 +23,9 @@ export const SidebarData = [
     link: "/allReview",
   },
   {
-    title: "お支払い設定",
+    title: "お気に入りの投稿",
     icon: <LocalAtmIcon/>,
-    link: "/payment",
+    link: "/favorites",
   },
   {
     title: "詳細設定",

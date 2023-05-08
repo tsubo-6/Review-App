@@ -1,6 +1,6 @@
 import React,{useRef,useState,useEffect} from 'react'
 import Navbar from '../components/Navbar'
-import { Button, Container, Stack, TextField,InputLabel, Paper,Select, MenuItem, Link} from '@mui/material'
+import { Button, Container, Stack, TextField,InputLabel, Paper,Select, MenuItem} from '@mui/material'
 import FormData from "form-data";
 // 特定のエンドポイントへのリクエストを送信できるようにする、HTTPクライアント
 import axios from "axios";
@@ -19,8 +19,7 @@ function Review() {
  useEffect(()=>{
     //promise状態（データ取得中）を回避
     const fetchPosts=async ()=>{
-      console.log("userInfo:"+persistedState.isAuthenticate)
-      if(persistedState.isAuthenticate==null){
+      if(persistedState==null){
         navigation("/")
       }
     }
@@ -57,11 +56,9 @@ const handleSubmit = async(e) =>{
     curry: e.target['curry'].value ,
     desc: e.target['desc'].value
   };
-    //package.jsonにproxy設定(http://localhost:5000省略)
     //registerAPIを叩く -> routesないのファイルで指定したroute.postの第一引数のエンドポイントを指定することでアクセス
     //第二引数:登録するデータ
-    // console.log(newPost)
-    const response = await axios.post("http://localhost:5000/api/posts" , newPost);
+    const response = await axios.post("/api/posts" , newPost);
     const postData = new FormData();
     console.log("img:"+image[0])
     //postDataにキーとバリューを設定
@@ -72,11 +69,10 @@ const handleSubmit = async(e) =>{
     newPost.img=response.post_id;
     console.log(newPost.img)
     const headers = { "content-type": "multipart/form-data;charset=utf-8" };
-    axios.post("http://localhost:5000/api/upload",
+    axios.post("/api/upload",
       postData,
       headers
     );
-    // window.location.reload();
     navigation("/review/complete")
   }catch(err){
     console.log(err);
@@ -109,7 +105,6 @@ const handleSubmit = async(e) =>{
               <InputLabel>評価</InputLabel>
               {/* scoreの値が格納されたらセッターで値保存 */}
               <Select value={score} label="評価" onChange = {(e) => setScore(e.target.value)} name="score" notched>
-              {/* <Select inputRef={score} label="評価" name="score" notched></Select> */}
                 <MenuItem value={0.5}>0.5</MenuItem>
                 <MenuItem value={1.0}>1.0</MenuItem>
                 <MenuItem value={1.5}>1.5</MenuItem>
@@ -136,7 +131,6 @@ const handleSubmit = async(e) =>{
                   accept=".png, .jpeg, .jpg"
                   required
                   onChange={(e)=>handleChange(e)}
-                  // ref={img}
                 />
               {/* </form> */}
               <InputLabel name='curry_review'>本文</InputLabel>

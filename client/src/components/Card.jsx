@@ -17,30 +17,8 @@ import { Link } from 'react-router-dom';
 
 export default function RecipeReviewCard({post}) {
 
-  // //投稿された情報を格納 @
-  // const [posts, setPosts]=useState({});
-  // //ログイン時のユーザ情報
-  // const {user} = useContext(AuthContext)
-
-  // //useEffectの無名関数にasyncがつけられない
-  // useEffect(()=>{
-  //   //promise状態（データ取得中）を回避
-  //   const fetchPosts=async ()=>{
-  //     const response = await axios.get(`http://localhost:5000/api/posts/`, {
-  //     params: { username: user.username },
-  //   });
-      //undifined
-      //console.log(posts.shopName);
-
-  //   // console.log("username："+user.username);
-  //     // const response = await axios.get(`http://localhost:5000/api/posts/${user.username}`)
-  //     //引数にresponse.dataを設定することでuseStateのpostsに格納することができる
-  //     setPosts(response.data)
-  //   };
-  //   fetchPosts();
-
-  // },[user.username, user._id])
-
+  const [like, setLike] = useState(post.likes.length)
+  const [isLiked, setIsLiked] = useState(false)
 
   const [openMenu, setOpenMenu] = useState(false);
   const handleMenuOpen = () => {
@@ -49,11 +27,23 @@ export default function RecipeReviewCard({post}) {
 
   const deleteAction = (id) =>{
     console.log("id:"+id)
-    axios.delete("http://localhost:5000/api/posts/"+id).then((res)=>{
+    axios.delete("/api/posts/"+id).then((res)=>{
     });
 
     alert("投稿が削除されました")
     window.location.reload();
+  }
+
+  const handleLike=async(id)=>{
+    try{
+      //いいねのAPI
+      await axios.put(`/api/posts/${post._id}/like`,id)
+      await axios.put(`/api/posts/${post._id}/favorites`,id)
+    }catch(err){
+    console.log(err)
+  }
+    setLike(isLiked ? like-1:like+1)
+    setIsLiked(!isLiked)
   }
 
   return (
@@ -67,7 +57,7 @@ export default function RecipeReviewCard({post}) {
         }
         action={
           <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
+            <IconButton>
               <Link
               to="/edit"
               state={{
@@ -94,7 +84,9 @@ export default function RecipeReviewCard({post}) {
 
       {/* <img src={"/uploads/" + post._id+ ".png"}/> */}
       <img
-      src={"http://localhost:5000/uploads/"+post._id+".png"} height="280" width="450"/>
+      src={"http://localhost:5000/uploads/"+post._id+".png"}
+      height="280" width="450"
+      />
 
       {/* <CardMedia
         component="img"
@@ -123,8 +115,8 @@ export default function RecipeReviewCard({post}) {
 
       {/* Card下部のアイコン */}
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" onClick={() => handleLike(post._id)}>
+          <FavoriteIcon /><span>{like} likes</span>
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />

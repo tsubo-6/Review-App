@@ -27,23 +27,12 @@ function Modify() {
   useEffect(()=>{
     //promise状態（データ取得中）を回避
     const fetchPosts=async ()=>{
-      console.log("userInfo:"+persistedState.isAuthenticate)
-      if(persistedState.isAuthenticate==null){
+      if(persistedState==null){
         navigate("/")
       }
     }
     fetchPosts();
   },[])
-
-
-  //取得した投稿データ取得
-  // const [post, setPost] = useState({});
-
-  // useEffect(()=>{
-  //   axios.get("http://localhost:5000/api/posts/").then((response)=>{
-  //     setPost(response.data);
-  //   });
-  // },[]);
 
   const shopName = useRef("");
   const visit = useRef("");
@@ -85,16 +74,11 @@ const handleSubmit = async(e) =>{
 
           <form onSubmit={(e)=> handleSubmit(e)}>
             <Stack spacing={3}>
-              {/* <InputLabel>ユーザ名</InputLabel>
-              <TextField required label="ユーザ名" name='userName' inputRef={userName}/> */}
-
               <InputLabel>店舗名</InputLabel>
               <TextField required defaultValue={shop} name='shop' inputRef={shopName}/>
               <InputLabel>訪問日</InputLabel>
               <TextField required defaultValue={vis} name='visit' inputRef={visit}/>
               <InputLabel>評価</InputLabel>
-              {/* <TextField required label="評価" /> */}
-
               <Select defaultValue={sco} inputRef={score} label="評価" name="score" notched>
                 <MenuItem value={0.5}>0.5</MenuItem>
                 <MenuItem value={1.0}>1.0</MenuItem>
@@ -109,25 +93,9 @@ const handleSubmit = async(e) =>{
               </Select>
               <InputLabel>辛さ</InputLabel>
               <TextField required defaultValue={spi} name='spicy' inputRef={spicy}/>
-
-              {/* <Select inputRef={spicy} label="辛さ" name="spicy" notched>
-                <MenuItem name={"甘口"}>甘口</MenuItem>
-                <MenuItem name={"中辛"}>中辛</MenuItem>
-                <MenuItem value={2}>辛口</MenuItem>
-                <MenuItem value={3}>激辛</MenuItem>
-              </Select> */}
-
               <InputLabel>どんなカレー</InputLabel>
               <TextField required defaultValue={cur} name='curry' inputRef={curry}/>
 
-              {/* <Select inputRef={curry} label="辛さ" name="curry" notched>
-                <MenuItem value={0}>スリランカカレー</MenuItem>
-                <MenuItem value={1}>インドカレー</MenuItem>
-                <MenuItem value={2}>ミャンマーカレー</MenuItem>
-                <MenuItem value={3}>カンボジアカレー</MenuItem>
-                <MenuItem value={4}>タイカレー</MenuItem>
-                <MenuItem value={5}>お店のこだわりカレー</MenuItem>
-              </Select> */}
               <InputLabel name='curry_review'>本文</InputLabel>
               <TextField
               required
@@ -138,11 +106,9 @@ const handleSubmit = async(e) =>{
               minRows="10"
               size="medium"
               inputRef={desc}/>
-              {/* <Link to="/review/complete"> */}
                 <Button color="primary" variant="contained" size="large" type="submit">
                   修正
                 </Button>
-              {/* </Link> */}
             </Stack>
           </form>
         </Paper>

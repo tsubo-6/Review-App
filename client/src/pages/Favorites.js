@@ -3,10 +3,10 @@ import Sidebar from '../components/Sidebar.jsx'
 import RecipeReviewCard from "../components/Card"
 import React,{useState,useEffect} from 'react';
 import axios from "axios"
-import { persistor } from "./../store";
+import { persistor } from "../store";
 import { useNavigate } from "react-router-dom"
 
-function AllReview() {
+function Favorites() {
   const [posts, setPosts]=useState([]);
   const navigation = useNavigate()
 
@@ -17,7 +17,7 @@ function AllReview() {
       if(persistedState==null){
         return navigation("/")
       }
-      const response = await axios.get("/api/posts", {
+      const response = await axios.get("/api/posts/favorites", {
     });
       setPosts(response.data)
     };
@@ -32,6 +32,7 @@ function AllReview() {
         setSidebarVisible={setSidebarVisible}
         sidebarVisible={sidebarVisible}
       />
+       <h2>お気に入り</h2>
       <div className="main">
         <Sidebar sidebarVisible={sidebarVisible}/>
         {posts.map((post)=>(
@@ -42,4 +43,4 @@ function AllReview() {
   )
 }
 
-export default AllReview
+export default Favorites

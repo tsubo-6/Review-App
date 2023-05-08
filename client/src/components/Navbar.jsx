@@ -15,8 +15,6 @@ function Navbar(props){
   //const {isAuthenticate} = useSelector((store)=>store.isAuthLogin)
 
   const navigate = useNavigate();
-
-  // const [visible, setVisible] = useState(false);
   const handleClick = async(e)=>{
     e.preventDefault();
     persistor.purge()
@@ -55,7 +53,6 @@ function Navbar(props){
               Review App
             </Typography>
             {/* <Button color="secondary">Login</Button> */}
-            {/* <a href="/login">Login</a> */}
             <Button color="inherit" onClick={(e)=>handleClick(e)}>Logout</Button>
           </Toolbar>
         </AppBar>

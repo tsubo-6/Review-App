@@ -13,17 +13,6 @@ const { default: mongoose } = require("mongoose");
 router.use(express.urlencoded( { extended: true }))
 router.use(flash());
 
-// router.use(session({
-//   secret: 'secret',
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: { secure:false,httpOnly: false, maxAge:  24 * 60 * 60 * 1000 },
-// }));
-
-// router.use(passport.initialize());
-// //セッション管理
-// router.use(passport.session());
-
 // strategyの設定
 // passportとStrategyの関連付け
 passport.use("local",new LocalStrategy(
@@ -36,18 +25,16 @@ async (username, password, done) => {
     }else if(user.password != password){
       return done(null, false, { message: "ユーザ名またはメールアドレスが正しくありません" });
     }else{
-      console.log("login:" + user._id)
       return done(null,user._id);
     }
   }catch(err){
-    console.error(err);
     return done(err);
   }
 }
 ))
 
-// // ユーザ情報をセッションへ保存
-// // どの値をセッション管理するかをここで指定する
+// ユーザ情報をセッションへ保存
+// どの値をセッション管理するかをここで指定する
 passport.serializeUser((id, done)=> {
   console.log("serialize:" + id)
   done(null, id);
@@ -55,7 +42,7 @@ passport.serializeUser((id, done)=> {
 
 //IDからユーザ情報を取得しreq.userに格納する
 passport.deserializeUser(async (id, done) =>{
-  console.log("deserialize:"+ id);
+  //console.log("deserialize:"+ id);
   const user=await User.findOne({_id:id});
   done(null,user);
 });
@@ -85,17 +72,14 @@ router.post("/register", async (req, res) => {
 // authenticate()=自動的にreq.login()を実行
 router.post("/login", passport.authenticate('local', {
     failureRedirect: '/', // 認証失敗した場合の飛び先
-    // failureFlash:true,
     session: true,
   }),
   (req,res)=>{
     req.login(req.user, (err) =>{
-      //console.log("seria"+req.session.passport.user)
       if(err){return next(err);}
       else{
         return res.redirect(200, "/main")
       }
-      // return res.redirect(200, "/main")
     })
   }
 )
@@ -108,14 +92,6 @@ router.get('/', async(req,res)=>{
   else{
     return res.send(false);
   }
-  // try{
-  //   const currentUserID = req.user;
-  //   const user=await User.findById(currentUserID);
-  //   console.log("ユーザ情報:"+user)
-  //   return res.status(200).json(user);
-  // } catch (err) {
-  //   return res.status(500).json(err);
-  // }
 });
 
 
@@ -128,24 +104,6 @@ router.get("/logout",(req,res) =>{
     }
   })
 })
-// 4/2 ここまで
-
-// ログイン
-// router.post("/login", async (req,res) =>{
-//   try{
-//     //ユニークなユーザを探すfindOne
-//     const user = await User.findOne({email: req.body.email});
-//     if(!user) return res.status(404).send("ユーザが見つかりません")
-//     //真偽値
-//     const validPassword = req.body.password === user.password
-
-//     if(!validPassword) return res.status(400).send("パスワードが違います")
-
-//     return res.status(200).json(user);
-//   }catch(err){
-//     return res.status(500).json(err);
-//   }
-// })
 
 //server.jsで呼び出せるようにする
 module.exports=router;

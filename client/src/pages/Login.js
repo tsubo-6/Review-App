@@ -24,19 +24,17 @@ function Login (){
       await axios.post("/api/auth/login",
       loginData,
       );
-      // 修正
-      if(e.target["userName"].value!==loginData.username){
-        console.log(e.target["userName"].value)
-        console.log(loginData.username)
-        return setMsg("ユーザ名、メールアドレスまたはパスワードが違います")
-      }
       const response = await axios.get("/api/auth/");
-      if(response.data){
-        dispatch(isCookie(response.data))
-        navigate("main")
+      console.log(response.data)
+      if(!response.data){
+        setMsg("ユーザ名メールアドレスまたはパスワードが違います")
+      }else{
+        //const response = await axios.get("/api/auth/");
+        if(response.data){
+          dispatch(isCookie(response.data))
+          navigate("main")
+        }
       }
-      // console.log(response.data)
-      //navigate("main")
     }catch(err){
       console.log(err);
     }
@@ -45,6 +43,7 @@ function Login (){
   return(
     <body className="log">
       <div className="formContainer">
+
         {/* <form onSubmit={(e) => handleSubmit(e)}> */}
         <form onSubmit={(e)=> handleSubmit(e)}>
           <h1>ログイン</h1>
@@ -93,14 +92,25 @@ function Login (){
                 ref={password}
               />
             </div>
+            <div className="formField">
             <font color="red"><strong>{msg}</strong></font>
-            <button className="loginButton">ログイン</button>
+            <button className="loginButton" >ログイン</button>
+            </div>
             <Link to="/register">
-              <button className="loginButton">アカウント作成</button>
+              <button className="loginButton2">👉 新規アカウント作成はこちら</button>
             </Link>
           </div>
         </form>
       </div>
+
+      <div className="bubbles">
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+        </div>
+
     </body>
   )
 }

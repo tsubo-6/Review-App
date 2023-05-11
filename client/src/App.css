@@ -9,6 +9,18 @@
   box-sizing: border-box;
 }
 
+/* 画像レスポンシブ対応 */
+img {
+  min-width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.card{
+  max-width: 800px;
+  margin: 16px 12px;
+}
+
 .Sidebar{
   height: 100%;
   /* height:750px; */
@@ -22,7 +34,6 @@
 
 
 .SidebarList{
-
   height:auto;
   padding:0;
   width:100%;
@@ -125,7 +136,6 @@ h1.formContainer{
   display: flex;
   flex-direction: column;
   width: 100%;
-
 }
 
 .formField input{
@@ -156,7 +166,7 @@ button.formContainer{
 }
 
 button:hover{
-  background-color: #175892;
+  background-color: #a3bbd0;
 }
 
 
@@ -170,4 +180,62 @@ button:hover{
 
 .selectForm3 {
   z-index: 50;
+}
+
+.loginButton{
+  background: -webkit-linear-gradient(#eee, #FFECCC);
+  margin-top: 12px;
+  margin-bottom: 6px;
+  padding: 12px;
+}
+
+.loginButton2{
+  border: none;
+  outline: none;
+  text-align: right;
+}
+
+button{
+  font-weight: bold;
+  font-family: 'Caveat', cursive;
+}
+
+/* スマートフォン向けCSS */
+/* ブレイクポイントを767pxに設定 */
+@media (max-width:  767px) {
+  .card {
+    margin: 8px 12px;
+    height: auto;
+  }
+  .Sidebar{
+    width:180px;
+  }
+  .formContainer form{
+
+  }
+}
+
+@media (max-width: 600px) {
+  .uiForm {
+    height:250px;
+    margin:0;
+  }
+  .formField input{
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    border-radius: 4px;
+  }
+  .formField label {
+    font-size: 12px;
+    /* 文字の太さ */
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .loginButton {
+    background: -webkit-linear-gradient(#eee, #FFECCC);
+    margin-top: 6px;
+    margin-bottom: 3px;
+    padding: 4px;
+  }
 }

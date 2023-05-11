@@ -87,7 +87,7 @@ const handleSubmit = async(e) =>{
         />
       <Sidebar sidebarVisible={sidebarVisible}/>
 
-      <Container maxWidth="sm" sx={{ pt: 5 }}>
+      <Container maxWidth="sm" sx={{ pt: 2 }}>
         {/* Paper : 浮かび具合を調整できる「紙」を表示する */}
         <Paper elevation={5} sx={{ padding: 4, marginY: 2 }}>
           {/* stack:一次元 Grid:二次元 */}

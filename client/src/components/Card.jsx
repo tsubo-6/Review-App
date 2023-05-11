@@ -16,7 +16,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 
 export default function RecipeReviewCard({post}) {
-
   const [like, setLike] = useState(post.likes.length)
   const [isLiked, setIsLiked] = useState(false)
 
@@ -29,7 +28,6 @@ export default function RecipeReviewCard({post}) {
     console.log("id:"+id)
     axios.delete("/api/posts/"+id).then((res)=>{
     });
-
     alert("投稿が削除されました")
     window.location.reload();
   }
@@ -47,15 +45,14 @@ export default function RecipeReviewCard({post}) {
   }
 
   return (
-    <Grid container alignItems='center' justifyContent='center' direction="column" sx={{m:2}}>
-    <Card sx={{ minWidth:450 ,maxWidth: 450 }} className="card">
+    <Grid container alignItems='center' justifyContent='center' direction="column">
+    <Card className='card'>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
             {}
           </Avatar>
-        }
-        action={
+        }action={
           <CardActions disableSpacing>
             <IconButton>
               <Link
@@ -79,23 +76,11 @@ export default function RecipeReviewCard({post}) {
         }
         title={post.shopName}
         subheader={(post.visit).substr(0,10)  }
-        // subheader={post._id}
       />
 
-      {/* <img src={"/uploads/" + post._id+ ".png"}/> */}
-      <img
-      src={"http://localhost:5000/uploads/"+post._id+".png"}
-      height="280" width="450"
+      <img src={"http://localhost:5000/uploads/"+post._id+".png"}
+
       />
-
-      {/* <CardMedia
-        component="img"
-        height="194"
-        // 画像をインポートする必要あり
-        image={"/uploads/" + post._id+ ".png"}
-        alt="画像データがありません"
-      /> */}
-
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           評価: {post.score}
@@ -122,11 +107,7 @@ export default function RecipeReviewCard({post}) {
           <ShareIcon />
         </IconButton>
       </CardActions>
-
-
     </Card>
     </Grid>
-    // </Grid>
-
   );
 }

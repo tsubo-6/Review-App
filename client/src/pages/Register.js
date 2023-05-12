@@ -83,8 +83,9 @@ function Register (){
                 ref={password}
               />
             </div>
-            <p className="errorMsg">{formErrors.password}</p>
-            <button className="loginButton">新規登録</button>
+            <div className="formField">
+              <button className="loginButton">新規登録</button>
+            </div>
           </div>
         </form>
       </div>

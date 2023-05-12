@@ -7,6 +7,7 @@ import { useNavigate} from "react-router-dom"
 import { useSelector, useDispatch} from 'react-redux'
 import {logout,isCookie} from "../features/AuthLoginSlice"
 import { persistor } from "./../store";
+import Modal from "../components/Modal.jsx";
 
 // 親コンポーネント
 function Main(){
@@ -16,6 +17,7 @@ function Main(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const persistedState = persistor.getState();
+  const hidden=true
 
   //useEffectの無名関数にasyncがつけられない
   useEffect(()=>{
@@ -45,7 +47,7 @@ function Main(){
       <div className="main">
         <Sidebar sidebarVisible={sidebarVisible}/>
         {posts.map((post)=>(
-          <RecipeReviewCard post={post} key={post._id}/>
+          <RecipeReviewCard post={post} key={post._id} hidden={hidden}/>
         ))}
       </div>
     </div>

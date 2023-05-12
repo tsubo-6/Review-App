@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom"
 function Favorites() {
   const [posts, setPosts]=useState([]);
   const navigation = useNavigate()
-
+  const hidden=false;
   const persistedState = persistor.getState();
 
   useEffect(()=>{
@@ -32,11 +32,10 @@ function Favorites() {
         setSidebarVisible={setSidebarVisible}
         sidebarVisible={sidebarVisible}
       />
-       <h2>お気に入り</h2>
       <div className="main">
         <Sidebar sidebarVisible={sidebarVisible}/>
         {posts.map((post)=>(
-          <RecipeReviewCard post={post} key={post._id}/>
+          <RecipeReviewCard post={post} key={post._id} hidden={hidden}/>
         ))}
       </div>
     </div>

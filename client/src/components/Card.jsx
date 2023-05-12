@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 
-export default function RecipeReviewCard({post}) {
+export default function RecipeReviewCard({post,hidden}) {
   const [like, setLike] = useState(post.likes.length)
   const [isLiked, setIsLiked] = useState(false)
 
@@ -23,6 +23,8 @@ export default function RecipeReviewCard({post}) {
   const handleMenuOpen = () => {
     setOpenMenu(!openMenu);
   };
+
+  console.log(hidden)
 
   const deleteAction = (id) =>{
     console.log("id:"+id)
@@ -66,22 +68,30 @@ export default function RecipeReviewCard({post}) {
                 cur:post.curry,
                 des:post.desc
                 }}>
-                <EditIcon />
+                <div>
+                {hidden ?
+                (<EditIcon />): (<p>
+                </p>)
+                }
+                </div>
               </Link>
             </IconButton>
             <IconButton aria-label="share">
-              <DeleteIcon onClick={()=>deleteAction(post._id)} />
+              <div>
+                {hidden ? (<DeleteIcon onClick={()=>deleteAction(post._id)} />) : (<p></p>)}
+              </div>
             </IconButton>
           </CardActions>
         }
-        title={post.shopName}
+        title={post.userName}
         subheader={(post.visit).substr(0,10)  }
       />
 
-      <img src={"http://localhost:5000/uploads/"+post._id+".png"}
-
-      />
+      <img src={"http://localhost:5000/uploads/"+post._id+".png"}/>
       <CardContent>
+        <Typography variant="body2" color="text.secondary">
+          店名: {post.shopName}
+        </Typography>
         <Typography variant="body2" color="text.secondary">
           評価: {post.score}
         </Typography>

@@ -43,7 +43,6 @@ function Login (){
   return(
     <body className="log">
       <div className="formContainer">
-
         {/* <form onSubmit={(e) => handleSubmit(e)}> */}
         <form onSubmit={(e)=> handleSubmit(e)}>
           <h1>ログイン</h1>

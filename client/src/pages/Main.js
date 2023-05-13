@@ -8,6 +8,7 @@ import { useSelector, useDispatch} from 'react-redux'
 import {logout,isCookie} from "../features/AuthLoginSlice"
 import { persistor } from "./../store";
 import Modal from "../components/Modal.jsx";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // 親コンポーネント
 function Main(){
@@ -18,6 +19,8 @@ function Main(){
   const dispatch = useDispatch();
   const persistedState = persistor.getState();
   const hidden=true
+
+  const [isLoading, setIsLoading] = useState(false);
 
   //useEffectの無名関数にasyncがつけられない
   useEffect(()=>{
@@ -31,14 +34,16 @@ function Main(){
       const response = await axios.get("/api/posts/usersPosts");
       //引数にresponse.dataを設定することでuseStateのpostsに格納することができる
       setPosts(response.data)
+      setIsLoading(true)
     }
     fetchPosts();
   },[])
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
-  return (
-    <div>
+  // mainのコンポーネント
+  const main=
+  <div>
       {/* 子コンポーネントに渡す */}
       <Navbar
         setSidebarVisible={setSidebarVisible}
@@ -50,7 +55,13 @@ function Main(){
           <RecipeReviewCard post={post} key={post._id} hidden={hidden}/>
         ))}
       </div>
-    </div>
+    </div>;
+
+
+  return (
+    <>
+    {isLoading ? (main) : (<CircularProgress className="loading" style={{width:"150px", height:"150px"}}/>)}
+    </>
   )
 }
 

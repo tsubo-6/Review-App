@@ -271,3 +271,11 @@ button{
   display: flex;
   justify-content: space-around;
 }
+
+/* スピナー関連 */
+.loading{
+  position: fixed;
+  top: 40%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+}

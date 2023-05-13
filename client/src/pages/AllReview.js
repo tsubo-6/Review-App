@@ -5,6 +5,7 @@ import React,{useState,useEffect} from 'react';
 import axios from "axios"
 import { persistor } from "./../store";
 import { useNavigate } from "react-router-dom"
+import CircularProgress from "@mui/material/CircularProgress";
 
 function AllReview() {
   const [posts, setPosts]=useState([]);
@@ -12,6 +13,7 @@ function AllReview() {
   const hideButton=false;
 
   const persistedState = persistor.getState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(()=>{
     const fetchPosts=async ()=>{
@@ -21,14 +23,14 @@ function AllReview() {
       const response = await axios.get("/api/posts", {
     });
       setPosts(response.data)
+      setIsLoading(true)
     };
     fetchPosts();
   },[])
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
-  return (
-    <div>
+  const main = <div>
       <Navbar
         setSidebarVisible={setSidebarVisible}
         sidebarVisible={sidebarVisible}
@@ -40,6 +42,11 @@ function AllReview() {
         ))}
       </div>
     </div>
+
+  return (
+    <>
+      {isLoading ? (main) : (<CircularProgress className="loading" style={{width:"150px", height:"150px"}}/>)}
+    </>
   )
 }
 

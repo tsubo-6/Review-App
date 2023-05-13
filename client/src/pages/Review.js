@@ -9,12 +9,16 @@ import { useSelector, useDispatch} from 'react-redux'
 import {logout} from "../features/AuthLoginSlice"
 import Sidebar from '../components/Sidebar';
 import { persistor } from "./../store";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 function Review() {
   const navigation = useNavigate()
   const dispatch = useDispatch();
   //const userInfo = useSelector((state)=>state.authLogin.isAuthenticate);
   const persistedState = persistor.getState();
+  const [isLoading, setIsLoading] = useState(false);
+
 
  useEffect(()=>{
     //promise状態（データ取得中）を回避
@@ -22,6 +26,7 @@ function Review() {
       if(persistedState==null){
         navigation("/")
       }
+      setIsLoading(true)
     }
     fetchPosts();
   },[])
@@ -79,7 +84,7 @@ const handleSubmit = async(e) =>{
   }
 };
 
-  return (
+const main =
     <div>
       <Navbar
         setSidebarVisible={setSidebarVisible}
@@ -156,6 +161,11 @@ const handleSubmit = async(e) =>{
         </Paper>
       </Container>
     </div>
+
+  return (
+    <>
+      {isLoading ? (main) : (<CircularProgress className="loading" style={{width:"150px", height:"150px"}}/>)}
+    </>
   )
 }
 

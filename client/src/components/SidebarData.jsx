@@ -23,14 +23,8 @@ export const SidebarData = [
     link: "/allReview",
   },
   {
-    title: "お気に入りの投稿",
+    title: "お気に入り",
     icon: <LocalAtmIcon/>,
     link: "/favorites",
-  },
-  {
-    title: "詳細設定",
-    icon: <BrightnessHighIcon/>,
-    link: "/setting",
   }
-
 ]

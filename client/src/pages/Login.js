@@ -93,7 +93,7 @@ function Login (){
             </div>
             <div className="formField">
             <font color="red"><strong>{msg}</strong></font>
-            <button className="loginButton" >ログイン</button>
+            <button className="loginButton">ログイン</button>
             </div>
             <Link to="/register">
               <button className="loginButton2">👉 新規アカウント作成はこちら</button>

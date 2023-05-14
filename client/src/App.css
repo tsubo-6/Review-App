@@ -168,7 +168,12 @@ button.formContainer{
 button:hover{
   background-color: #a3bbd0;
 }
-
+button:active {
+  background-color: #FDF5E6;
+  /* クリック時の背景色 */
+  color: #fff;
+  /* クリック時の文字色 */
+}
 
 .selectForm1{
   z-index: 150;

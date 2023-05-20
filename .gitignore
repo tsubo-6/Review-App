@@ -5,6 +5,7 @@
 /.pnp
 /.ico
 .pnp.js
+**/node_modules
 
 # testing
 /coverage

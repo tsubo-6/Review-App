@@ -20,7 +20,7 @@ function AllReview() {
       if(persistedState==null){
         return navigation("/")
       }
-      const response = await axios.get("/api/posts", {
+      const response = await axios.get("https://example.herokuapp.com/api/posts", {
     });
       setPosts(response.data)
       setIsLoading(true)

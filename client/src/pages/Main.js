@@ -26,12 +26,12 @@ function Main(){
   useEffect(()=>{
     //promise状態（データ取得中）を回避
     const fetchPosts=async ()=>{
-      const res = await axios.get("/api/auth/");
+      const res = await axios.get("https://example.herokuapp.com/api/auth/");
       if(!res.data){
         dispatch(logout())
         navigate("/")
       }
-      const response = await axios.get("/api/posts/usersPosts");
+      const response = await axios.get("https://example.herokuapp.com/api/posts/usersPosts");
       //引数にresponse.dataを設定することでuseStateのpostsに格納することができる
       setPosts(response.data)
       setIsLoading(true)

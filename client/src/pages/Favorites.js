@@ -20,7 +20,7 @@ function Favorites() {
       if(persistedState==null){
         return navigation("/")
       }
-      const response = await axios.get("/api/posts/favorites", {
+      const response = await axios.get("https://example.herokuapp.com/api/posts/favorites", {
     });
       setPosts(response.data)
       setIsLoading(true)

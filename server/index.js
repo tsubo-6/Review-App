@@ -53,46 +53,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// passport.use("local",new LocalStrategy(
-// // done:コールバック関数
-// async (username, password, done) => {
-//   await User.findOne({ username }).then((user, err) => {
-//     // console.log("userInfo:"+user)
-//     if (err) {
-//       return done("Error:" + err);
-//     }
-//     if (!user || user.password != password) {
-//       //req.flash("")
-//       return done(null, false, { message: "ユーザ名またはメールアドレスが正しくありません" });
-//     } else {
-//       // serializeUserの第一引数に受け渡される
-//       // 保存するデータは最小限に
-//       console.log("LocalStrategy:" + user)
-//       return done(err, user);
-//     }
-//   });
-// }
-// ))
-
-// // ユーザ情報をセッションへ保存
-// // どの値をセッション管理するかをここで指定する
-// passport.serializeUser((user, done)=> {
-//   console.log("serialize(index.js):" + user)
-//   process.nextTick(()=>{
-//     done(null, user._id);
-//   })
-// });
-
-// //IDからユーザ情報を取得しreq.userに格納する
-// passport.deserializeUser((id, done) => {
-//   console.log("deserialize:" + id);
-//    User.findById(id).then((err, user)=>{
-//     console.log("deserialize:" + user);
-//     done(err, user);
-//   })
-// });
-
-
 //第一引数をルートディレクトリとして
 //リクエストされた時に第二引数呼び出し
 ///api/postsをルートディレクトリとして設定

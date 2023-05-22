@@ -21,10 +21,10 @@ function Login (){
         email: e.target['email'].value,
         password: e.target['password'].value ,
       }
-      await axios.post("https://example.herokuapp.com/api/auth/login",
+      await axios.post("/api/auth/login",
       loginData,
       );
-      const response = await axios.get("https://example.herokuapp.com/api/auth/");
+      const response = await axios.get("/api/auth/");
       console.log(response.data)
       if(!response.data){
         setMsg("ユーザ名メールアドレスまたはパスワードが違います")

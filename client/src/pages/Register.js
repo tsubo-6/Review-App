@@ -28,7 +28,7 @@ function Register (){
     //registerAPIを叩く -> routesないのファイルで指定したroute.postの第一引数のエンドポイントを指定することでアクセス
     //第二引数:登録するデータ
     console.log(newUser)
-    await axios.post("https://example.herokuapp.com/api/auth/register" , newUser);
+    await axios.post("http://localhost:5000/api/auth/register" , newUser);
     navigate("/register/complete")
   }catch(err){
     console.log(err);

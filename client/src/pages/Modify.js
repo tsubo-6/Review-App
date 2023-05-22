@@ -55,7 +55,7 @@ const handleSubmit = async(e) =>{
     curry: e.target['curry'].value ,
     desc: e.target['desc'].value
   };
-    await axios.put("https://example.herokuapp.com/api/posts/"+id , editPost);
+    await axios.put("/api/posts/"+id , editPost);
     window.location.reload();
   }catch(err){
     console.log(err);

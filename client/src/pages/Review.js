@@ -63,7 +63,7 @@ const handleSubmit = async(e) =>{
   };
     //registerAPIを叩く -> routesないのファイルで指定したroute.postの第一引数のエンドポイントを指定することでアクセス
     //第二引数:登録するデータ
-    const response = await axios.post("https://example.herokuapp.com/api/posts" , newPost);
+    const response = await axios.post("/api/posts" , newPost);
     const postData = new FormData();
     console.log("img:"+image[0])
     //postDataにキーとバリューを設定

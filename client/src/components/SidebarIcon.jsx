@@ -1,5 +1,5 @@
 import React from 'react'
-import Icon from "../images/icon.png"
+import Icon from "../images/kare.png"
 
 function SidebarIcon() {
   return (

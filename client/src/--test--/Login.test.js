@@ -1,10 +1,11 @@
 import React from "react";
 import {render, screen, fireEvent } from '@testing-library/react';
 import Login from '../pages/Login';
+import "babel-polyfill";
 
 describe('Login Component', ()=>{
   test('ログインフォームが表示されること', () =>{
-    render(<Login />);
+    //render(<Login />);
 
     // フォーム要素の存在を確認
     const userNameInput = screen.getByPlaceholderText('ユーザ名');
@@ -17,7 +18,6 @@ describe('Login Component', ()=>{
     expect(passwordInput).toBeInTheDocument();
     expect(loginButton).toBeInTheDocument();
   });
-
   // test('ログインボタンがクリックされた時にhandleSubmit関数が呼び出されること', () => {
   //   const handleSubmit = jest.fn();
   //   render(<Login handleSubmit={handleSubmit} />);

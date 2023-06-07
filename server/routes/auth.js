@@ -42,7 +42,7 @@ passport.serializeUser((id, done)=> {
 
 //IDからユーザ情報を取得しreq.userに格納する
 passport.deserializeUser(async (id, done) =>{
-  //console.log("deserialize:"+ id);
+  console.log("deserialize:"+ id);
   const user=await User.findOne({_id:id});
   done(null,user);
 });
@@ -86,6 +86,7 @@ router.post("/login", passport.authenticate('local', {
 
 //ユーザ情報を取得するAPI
 router.get('/', async(req,res)=>{
+  console.log("koko"+req.user)
   if(req.user){
     return res.send(req.user.username);
   }

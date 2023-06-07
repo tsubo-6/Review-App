@@ -15,7 +15,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 function Review() {
   const navigation = useNavigate()
   const dispatch = useDispatch();
-  //const userInfo = useSelector((state)=>state.authLogin.isAuthenticate);
   const persistedState = persistor.getState();
   const [isLoading, setIsLoading] = useState(false);
 

@@ -41,7 +41,6 @@ function Main(){
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
-  // mainのコンポーネント
   const main=
   <div>
       {/* 子コンポーネントに渡す */}

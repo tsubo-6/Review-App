@@ -25,8 +25,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const cookieParser = require('cookie-parser')
 const session = require("express-session")
 
+require("dotenv").config();
 //mongoDBとデータベース接続
-mongoose.connect("mongodb+srv://tsubo:Masaki61@cluster0.lmi4zi6.mongodb.net/review?retryWrites=true&w=majority")
+mongoose.connect(process.env.MONGO_URL)
 .then(()=>{
   console.log("DBと接続中...");
 }).catch((err)=>{

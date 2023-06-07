@@ -29,7 +29,6 @@ function Login (){
       if(!response.data){
         setMsg("ユーザ名メールアドレスまたはパスワードが違います")
       }else{
-        //const response = await axios.get("/api/auth/");
         if(response.data){
           dispatch(isCookie(response.data))
           navigate("main")
@@ -43,14 +42,10 @@ function Login (){
   return(
     <body className="log">
       <div className="formContainer">
-        {/* <form onSubmit={(e) => handleSubmit(e)}> */}
         <form onSubmit={(e)=> handleSubmit(e)}>
           <h1>ログイン</h1>
-          {/* 横線 */}
           <hr/>
-          {/* User Pass入力する大枠 */}
           <div className="uiForm">
-            {/* User */}
             <div className="formField">
               <label>User: </label>
               {/* name属性 : JSに使用 */}
@@ -59,7 +54,6 @@ function Login (){
                 type="text"
                 placeholder="ユーザ名"
                 name="userName"
-                //onChange={(e)=>handleChange(e)}
                 required
                 ref={userName}
               />
@@ -68,12 +62,10 @@ function Login (){
             <div className="formField">
               <label>Mail Address : </label>
               {/* name属性 : JSに使用 */}
-              {/* onChange(): 入力された時に発火する */}
               <input
                 type="email"
                 placeholder="メールアドレス"
                 name="email"
-                //onChange={(e)=>handleChange(e)}
                 required
                 ref={email}
               />
@@ -85,7 +77,6 @@ function Login (){
                 type="password"
                 placeholder="パスワード"
                 name="password"
-                //onChange={(e)=>handleChange(e)}
                 required
                 minLength="6"
                 ref={password}

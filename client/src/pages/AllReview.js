@@ -7,13 +7,14 @@ import { persistor } from "./../store";
 import { useNavigate } from "react-router-dom"
 import CircularProgress from "@mui/material/CircularProgress";
 
+// webアプリに投稿された全ての投稿を表示
 function AllReview() {
   const [posts, setPosts]=useState([]);
-  const navigation = useNavigate()
-  const hideButton=false;
-
-  const persistedState = persistor.getState();
   const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigate();
+  // 全投稿が見れる画面では修正ボタン・削除ボタンは表示されてほしくない
+  const hideButton=false;
+  const persistedState = persistor.getState();
 
   useEffect(()=>{
     const fetchPosts=async ()=>{

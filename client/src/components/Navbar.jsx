@@ -11,12 +11,12 @@ import { useNavigate } from "react-router-dom"
 import { persistor } from './../store'
 
 function Navbar(props){
-  // isAuthenticate: initialStateのオブジェクト内からとってくる
-  //const {isAuthenticate} = useSelector((store)=>store.isAuthLogin)
-
   const navigate = useNavigate();
+
+  // ログアウトボタンの処理
   const handleClick = async(e)=>{
     e.preventDefault();
+    // 永続データを削除
     persistor.purge()
     await axios.get("/api/auth/logout");
     navigate('/');
@@ -38,19 +38,16 @@ function Navbar(props){
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
+              // メニューアイコンクリックでMainコンポーネントの関数発火
+              onClick={() => props.setSidebarVisible(!props.sidebarVisible)}
             >
-            {/* Sidebar表示非表示 */}
-            {/* <MenuIcon onClick={() => setVisible(!visible)}/> */}
-            {/* Mainにprops渡す */}
-            {/* <Main visible={visible}/> */}
-
             {/* Mainコンポーネントからprops受け取る */}
-            <MenuIcon onClick={() => props.setSidebarVisible(!props.sidebarVisible)}/>
+            <MenuIcon/>
 
             </IconButton>
             {/* Typography : 文字デザイン */}
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Review App
+              Curry Review App
             </Typography>
             {/* <Button color="secondary">Login</Button> */}
             <Button color="inherit" onClick={(e)=>handleClick(e)}>Logout</Button>

@@ -5,21 +5,17 @@ import FormData from "form-data";
 // 特定のエンドポイントへのリクエストを送信できるようにする、HTTPクライアント
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
-import { useSelector, useDispatch} from 'react-redux'
-import {logout} from "../features/AuthLoginSlice"
 import Sidebar from '../components/Sidebar';
 import { persistor } from "./../store";
 import CircularProgress from "@mui/material/CircularProgress";
 
-
 function Review() {
   const navigation = useNavigate()
-  const dispatch = useDispatch();
   const persistedState = persistor.getState();
+  const [sidebarVisible, setSidebarVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-
- useEffect(()=>{
+  useEffect(()=>{
     //promise状態（データ取得中）を回避
     const fetchPosts=async ()=>{
       if(persistedState==null){
@@ -30,12 +26,9 @@ function Review() {
     fetchPosts();
   },[])
 
-  const [sidebarVisible, setSidebarVisible] = useState(false);
-
   const userName = useRef("");
   const shopName = useRef("");
   const visit = useRef("");
-  // const score = useRef("");
   const [score, setScore] = useState("");
   const spicy = useRef("");
   const curry = useRef("");
@@ -60,24 +53,26 @@ const handleSubmit = async(e) =>{
     curry: e.target['curry'].value ,
     desc: e.target['desc'].value
   };
-    //registerAPIを叩く -> routesないのファイルで指定したroute.postの第一引数のエンドポイントを指定することでアクセス
-    //第二引数:登録するデータ
+
     const response = await axios.post("/api/posts" , newPost);
+    // FromData:データのキーと値のペアを格納するためのオブジェクトを生成
     const postData = new FormData();
     console.log("img:"+image[0])
-    //postDataにキーとバリューを設定
     postData.append("post_id", response.data._id)
+    // onChange関数でimageが更新されていればimage[0]にデータが格納されているはず
     postData.append("image_file", image[0])
     console.log("postData:"+JSON.stringify(postData))
-    //imgにファイル名を保存
+    // imgにファイル名を保存
+    // newPostオブジェクトにimgプロパティを新規追加
     newPost.img=response.post_id;
-    console.log(newPost.img)
+    console.log("post_idの中身:"+newPost.img);
+    // multipart/form-dataが設定されていない場合にはファイルのアップロードはできない
     const headers = { "content-type": "multipart/form-data;charset=utf-8" };
     axios.post("/api/upload",
       postData,
       headers
     );
-    navigation("/review/complete")
+    navigation("/review/complete");
   }catch(err){
     console.log(err);
   }
@@ -125,9 +120,7 @@ const main =
               <InputLabel>どんなカレー</InputLabel>
               <TextField required label="カレー" name='curry' inputRef={curry}/>
               <InputLabel>カレーの画像</InputLabel>
-              {/* 3/17 */}
               {/*  style={{display:"none"}} -> ファイルを選択してくださいを隠すことが可能 */}
-              {/* <form encType="multipart/form-data"> */}
                 <input
                   type="file"
                   name='image'
@@ -136,7 +129,6 @@ const main =
                   required
                   onChange={(e)=>handleChange(e)}
                 />
-              {/* </form> */}
               <InputLabel name='curry_review'>本文</InputLabel>
               <TextField
               required

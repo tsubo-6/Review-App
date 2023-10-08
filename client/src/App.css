@@ -67,6 +67,7 @@ img {
   padding-top:20px;
   padding-bottom: 15px;
   text-align:center;
+  margin:8px;
 }
 
 .SidebarIcon img{
@@ -84,7 +85,7 @@ img {
 }
 
 /* ログインフォーム */
-body.log{
+.log{
   background: rgb(188, 255, 124);
   background: linear-gradient(90deg, rgba(188, 255, 124, 1) 0%, rgba(0, 255, 159, 1) 100%);
   /* スクロール禁止 */

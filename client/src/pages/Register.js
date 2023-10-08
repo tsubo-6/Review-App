@@ -1,5 +1,5 @@
-import {useState,useRef} from "react";
-import { Link,useNavigate } from "react-router-dom";
+import {useRef} from "react";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
@@ -9,16 +9,10 @@ function Register (){
   const password=useRef("");
   const navigate = useNavigate()
 
-  const initialValues ={username:"",password:""};
-  // 変数formValuesには初期値としてオブジェクトinitialValuesが格納されている
-  const [formValues,setFormValues] = useState(initialValues);
-  const [formErrors,setFormErrors] = useState({});
-
   const handleSubmit = async(e) =>{
   e.preventDefault();
   try{
     const newUser = {
-    // userName: e.target['userName'].value,
     username: e.target['user'].value,
     email: e.target['mailAddress'].value,
     password: e.target['pass'].value ,
@@ -36,16 +30,14 @@ function Register (){
 };
 
   return(
-    <body className="log">
+    <div className="log">
       <div className="formContainer">
         <form onSubmit={(e) => handleSubmit(e)}>
           <h1>新規登録</h1>
-          {/* 横線 */}
           <hr/>
           {/* User Pass入力する大枠 */}
           <div className="uiForm">
             {/* User */}
-
             <div className="formField">
               <label>User Name : </label>
               {/* name属性 : JSに使用 */}
@@ -70,7 +62,6 @@ function Register (){
                 ref={email}
               />
             </div>
-            <p className="errorMsg">{formErrors.mailAddress}</p>
             <div className="formField">
               <label>Password : </label>
               {/* name属性 : JSに使用 */}
@@ -89,7 +80,7 @@ function Register (){
           </div>
         </form>
       </div>
-    </body>
+    </div>
   )
 }
 

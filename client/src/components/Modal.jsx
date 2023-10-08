@@ -1,5 +1,6 @@
 import React from 'react'
 
+// 追加機能として修正中
 function Modal() {
   return (
     <aside className="modal-container">

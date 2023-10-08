@@ -1,8 +1,6 @@
 import React from 'react'
-
 import HouseIcon from '@mui/icons-material/House';
 import EmailIcon from '@mui/icons-material/Email';
-import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 // サイドバーの項目を追加する

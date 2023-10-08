@@ -18,6 +18,8 @@ const upload = multer({
 });
 
 //画像アップロードAPI
+//upload.single関数によってreq.fileで画像データにアクセス可能となる
+//single("image_file")はReview.jsのpostData.append("image_file", image[0])と紐づけられている
 router.post("/",upload.single('image_file'), (req,res) =>{
   console.log("upload.js:"+req.file);
   res.send('ファイルのアップロードが完了しました。');

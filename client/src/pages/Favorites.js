@@ -7,13 +7,14 @@ import { persistor } from "../store";
 import { useNavigate } from "react-router-dom"
 import CircularProgress from "@mui/material/CircularProgress";
 
+// いいねを押した投稿を全件表示
 function Favorites() {
   const [posts, setPosts]=useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
   const navigation = useNavigate()
   const hidden=false;
   const persistedState = persistor.getState();
-  const [isLoading, setIsLoading] = useState(false);
-
 
   useEffect(()=>{
     const fetchPosts=async ()=>{
@@ -23,25 +24,24 @@ function Favorites() {
       const response = await axios.get("/api/posts/favorites", {
     });
       setPosts(response.data)
+      // true→スピナー表示を解除
       setIsLoading(true)
     };
     fetchPosts();
   },[])
 
-  const [sidebarVisible, setSidebarVisible] = useState(false);
-
   const main= <div>
-      <Navbar
-        setSidebarVisible={setSidebarVisible}
-        sidebarVisible={sidebarVisible}
-      />
-      <div className="main">
-        <Sidebar sidebarVisible={sidebarVisible}/>
-        {posts.map((post)=>(
-          <RecipeReviewCard post={post} key={post._id} hidden={hidden}/>
-        ))}
-      </div>
+    <Navbar
+      setSidebarVisible={setSidebarVisible}
+      sidebarVisible={sidebarVisible}
+    />
+    <div className="main">
+      <Sidebar sidebarVisible={sidebarVisible}/>
+      {posts.map((post)=>(
+        <RecipeReviewCard post={post} key={post._id} hidden={hidden}/>
+      ))}
     </div>
+  </div>
 
   return (
     <>

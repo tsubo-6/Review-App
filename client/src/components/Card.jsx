@@ -16,15 +16,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 
 export default function RecipeReviewCard({post,hidden}) {
+  // そのレビューに押されているいいねの数
   const [like, setLike] = useState(post.likes.length)
+  // ログインしているユーザがその投稿にいいねを押しているか
   const [isLiked, setIsLiked] = useState(false)
-
-  const [openMenu, setOpenMenu] = useState(false);
-  const handleMenuOpen = () => {
-    setOpenMenu(!openMenu);
-  };
-
-  console.log(hidden)
 
   const deleteAction = (id) =>{
     console.log("id:"+id)
@@ -86,8 +81,8 @@ export default function RecipeReviewCard({post,hidden}) {
         title={post.userName}
         subheader={(post.visit).substr(0,10)  }
       />
-
-      <img src={"http://localhost:5000/uploads/"+post._id+".png"}/>
+      {/* multerによってアップロードされた画像にアクセス */}
+      <img crossOrigin="anonymous" src={"http://localhost:5000/uploads/"+post._id+".png"}/>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           店名: {post.shopName}

@@ -10,7 +10,7 @@ function Login (){
   const password=useRef("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  // バリデーションエラー表示
   const [msg,setMsg] = useState("");
 
   const handleSubmit= async(e)=>{
@@ -21,9 +21,7 @@ function Login (){
         email: e.target['email'].value,
         password: e.target['password'].value ,
       }
-      await axios.post("/api/auth/login",
-      loginData,
-      );
+      await axios.post("/api/auth/login",loginData,);
       const response = await axios.get("/api/auth/");
       console.log(response.data)
       if(!response.data){
@@ -40,7 +38,7 @@ function Login (){
   }
 
   return(
-    <body className="log">
+    <div className="log">
       <div className="formContainer">
         <form onSubmit={(e)=> handleSubmit(e)}>
           <h1>ログイン</h1>
@@ -49,7 +47,6 @@ function Login (){
             <div className="formField">
               <label>User: </label>
               {/* name属性 : JSに使用 */}
-              {/* onChange(): 入力された時に発火する */}
               <input
                 type="text"
                 placeholder="ユーザ名"
@@ -93,15 +90,16 @@ function Login (){
         </form>
       </div>
 
+      {/* 背景にアニメーション追加予定 */}
       <div className="bubbles">
-          <div className="bubble"></div>
-          <div className="bubble"></div>
-          <div className="bubble"></div>
-          <div className="bubble"></div>
-          <div className="bubble"></div>
-        </div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+      </div>
 
-    </body>
+    </div>
   )
 }
 

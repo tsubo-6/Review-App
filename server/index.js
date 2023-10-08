@@ -8,12 +8,9 @@ const authRoute = require("./routes/auth.js");
 const userRoute = require("./routes/users.js");
 const uploadRoute = require("./routes/upload.js");
 
-//expressモジュールを実体化して、定数appに代入
 const app=express()
-// helmet実装
 const helmet = require('helmet')
 const mongoose = require("mongoose");
-// require("dotenv").config();
 const path = require("path")
 const PORT = 5000;
 const User = require("./models/User");
@@ -37,15 +34,11 @@ mongoose.connect(process.env.MONGO_URL)
 //ミドルウェアとして設定
 app.use(helmet())
 app.use(cors())
+// アップロードした画像にアクセスできるようになる
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")))
 app.use(express.json());
-
 app.use(express.urlencoded( { extended: false }));
 
-//passpport.jsの初期設定
-// app.use(express.urlencoded( { extended: true }))
-// app.use(flash());
-// app.use(cookieParser())
 app.use(session({
   secret: 'secret',
   name: "session",

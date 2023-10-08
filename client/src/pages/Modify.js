@@ -1,28 +1,25 @@
-import React,{useRef,useEffect,useState} from 'react'
+import React,{useRef,useEffect} from 'react'
 import Navbar from '../components/Navbar'
 import { Button, Container, Stack, TextField,InputLabel, Paper,Select, MenuItem} from '@mui/material'
-import { Link } from "react-router-dom";
-// 特定のエンドポイントへのリクエストを送信できるようにする、HTTPクライアント
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate} from "react-router-dom"
-import { useSelector, useDispatch} from 'react-redux'
-import {logout,isCookie} from "../features/AuthLoginSlice"
 import { persistor } from "./../store";
 
 function Modify() {
-  const loca = useLocation();
-  const {id} = loca.state;
-  const {shop} = loca.state;
-  const {vis} = loca.state;
-  const {sco} = loca.state;
-  const {spi}=loca.state;
-  const {cur}=loca.state;
-  const {des}=loca.state;
-
+  const location = useLocation();
+  // 修正ボタン押下でLinkタグ(Cardコンポーネント)のstateから渡される値を受け取る変数
+  const { id, shop, vis, sco, spi, cur, des } = location.state;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const persistedState = persistor.getState();
+
+  // 入力フォームに入力された値を取ってくる
+  const shopName = useRef("");
+  const visit = useRef("");
+  const score = useRef("");
+  const spicy = useRef("");
+  const curry = useRef("");
+  const desc = useRef("");
 
   useEffect(()=>{
     //promise状態（データ取得中）を回避
@@ -33,14 +30,6 @@ function Modify() {
     }
     fetchPosts();
   },[])
-
-  const shopName = useRef("");
-  const visit = useRef("");
-  const score = useRef("");
-  const spicy = useRef("");
-  const curry = useRef("");
-  const desc = useRef("");
-
 
 //レビュー登録
 const handleSubmit = async(e) =>{
@@ -56,7 +45,7 @@ const handleSubmit = async(e) =>{
     desc: e.target['desc'].value
   };
     await axios.put("/api/posts/"+id , editPost);
-    window.location.reload();
+    navigate("/review/complete");
   }catch(err){
     console.log(err);
   }
@@ -106,9 +95,9 @@ const handleSubmit = async(e) =>{
               minRows="10"
               size="medium"
               inputRef={desc}/>
-                <Button color="primary" variant="contained" size="large" type="submit">
-                  修正
-                </Button>
+              <Button color="primary" variant="contained" size="large" type="submit">
+                修正
+              </Button>
             </Stack>
           </form>
         </Paper>

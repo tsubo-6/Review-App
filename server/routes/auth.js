@@ -1,12 +1,9 @@
 const router = require("express").Router();
-//User.jsをインポート
 const User = require("../models/User.js");
-// 4/1~
 const express=require("express");
-const flash = require("connect-flash")
-const passport = require("passport")
+const flash = require("connect-flash");
+const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
-// const cookieParser = require('cookie-parser')
 const session = require("express-session");
 const { default: mongoose } = require("mongoose");
 
@@ -23,10 +20,9 @@ async (username, password, done) => {
     if(!user){
       return done(null,false);
     }else if(user.password != password){
-      return done(null, false, { message: "ユーザ名またはメールアドレスが正しくありません" });
-    }else{
-      return done(null,user._id);
+      return done(null, false, { message: "ユーザ名またはパスワードが正しくありません" });
     }
+    return done(null,user._id);
   }catch(err){
     return done(err);
   }
@@ -67,8 +63,6 @@ router.post("/register", async (req, res) => {
   }
 })
 
-// 4/2~
-//passport.jsでのログイン
 // authenticate()=自動的にreq.login()を実行
 router.post("/login", passport.authenticate('local', {
     failureRedirect: '/', // 認証失敗した場合の飛び先
@@ -86,7 +80,7 @@ router.post("/login", passport.authenticate('local', {
 
 //ユーザ情報を取得するAPI
 router.get('/', async(req,res)=>{
-  console.log("koko"+req.user)
+  console.log("req.userの値"+req.user)
   if(req.user){
     return res.send(req.user.username);
   }
@@ -94,7 +88,6 @@ router.get('/', async(req,res)=>{
     return res.send(false);
   }
 });
-
 
 router.get("/logout",(req,res) =>{
   req.session.destroy( (err)=> {

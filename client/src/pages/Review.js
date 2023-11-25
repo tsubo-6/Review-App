@@ -62,10 +62,10 @@ const handleSubmit = async(e) =>{
     // onChange関数でimageが更新されていればimage[0]にデータが格納されているはず
     postData.append("image_file", image[0])
     console.log("postData:"+JSON.stringify(postData))
-    // imgにファイル名を保存
     // newPostオブジェクトにimgプロパティを新規追加
-    newPost.img=response.post_id;
-    console.log("post_idの中身:"+newPost.img);
+    // newPost.img=response.post_id;
+    // console.log("post_idの中身:"+newPost.img);
+    
     // multipart/form-dataが設定されていない場合にはファイルのアップロードはできない
     const headers = { "content-type": "multipart/form-data;charset=utf-8" };
     axios.post("/api/upload",

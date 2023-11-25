@@ -37,7 +37,7 @@ const PostSchema = new mongoose.Schema(
     },
     desc: {
       type: String,
-      max: 200,
+      maxLength: 200,
     },
     likes:{
       type:Array,

@@ -8,7 +8,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import axios from "axios"
 import { Divider, Grid } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -107,9 +106,6 @@ export default function RecipeReviewCard({post,hidden}) {
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={() => handleLike(post._id)}>
           <FavoriteIcon /><span>{like} likes</span>
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
         </IconButton>
       </CardActions>
     </Card>

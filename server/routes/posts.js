@@ -7,8 +7,6 @@ const User = require("../models/User");
 const session = require("express-session")
 const passport = require("passport")
 
-
-
 // http://localhost:5000/api/posts/でpostリクエストが飛んできた時に実行される
 router.post("/", async (req,res) => {
 
@@ -33,7 +31,6 @@ router.post("/", async (req,res) => {
 })
 
   //usernameから投稿取得
-  // router.get("/" , async (req,res) => {
   router.get("/usersPosts" , async (req,res) => {
 
   try{
@@ -42,8 +39,6 @@ router.post("/", async (req,res) => {
     // 変数postにreq.paramsで取得したusernameと合致するデータセットを格納
     // const user=await User.findOne({userName:req.user.username});
     const posts = await Post.find({userName: req.user.username});
-    // console.log("user:"+req.user)
-
     console.log("username:"+req.user.username)
     console.log("posts:"+posts)
     // res.render("/client/src/pages/Main.js")

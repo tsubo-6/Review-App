@@ -18,7 +18,6 @@ function Login (){
     try{
       const loginData ={
         username : e.target["userName"].value,
-        email: e.target['email'].value,
         password: e.target['password'].value ,
       }
       await axios.post("/api/auth/login",loginData,);
@@ -56,9 +55,8 @@ function Login (){
               />
             </div>
 
-            <div className="formField">
+            {/* <div className="formField">
               <label>Mail Address : </label>
-              {/* name属性 : JSに使用 */}
               <input
                 type="email"
                 placeholder="メールアドレス"
@@ -66,7 +64,8 @@ function Login (){
                 required
                 ref={email}
               />
-            </div>
+            </div> */}
+
             <div className="formField">
               <label>Password : </label>
               {/* name属性 : JSに使用 */}

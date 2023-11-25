@@ -23,6 +23,6 @@ const upload = multer({
 router.post("/",upload.single('image_file'), (req,res) =>{
   console.log("upload.js:"+req.file);
   res.send('ファイルのアップロードが完了しました。');
-})
+});
 
 module.exports = router;
